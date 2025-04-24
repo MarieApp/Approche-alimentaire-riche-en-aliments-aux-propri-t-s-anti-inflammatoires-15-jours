@@ -1,600 +1,826 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Plan Alimentaire Anti-Inflammatoire - 21 Jours</title>
-  <!-- Tailwind CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
-  <!-- Font Awesome Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
-  <link href="https://cdn.jsdelivr.net/npm/@fontsource/roboto@3.3.1/latin-400.css" rel="stylesheet">
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plan Alimentaire Anti-Inflammatoire - 21 Jours Complet</title>
+  <!-- Tailwind CSS 2.2.19 -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Google Fonts - Poppins -->
+  <link href="https://cdn.jsdelivr.net/npm/@fontsource/poppins@3.3.1/400.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@fontsource/poppins@3.3.1/700.css" rel="stylesheet">
+  <!-- Font Awesome 6.5.2 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
   <style>
-    body { font-family: 'Roboto', Arial, sans-serif; background: linear-gradient(120deg, #fffbe6 0%, #f2fdff 100%);}
-    h1,h2,h3,h4 { font-weight:700; }
-    .rainbow-text {
-      background: linear-gradient(to right, #00c7b7, #94e077, #fae230, #ffab6d, #fa709a, #30c6fa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #f0fdf4 0%, #e0f2fe 80%);
+      color: #19302d;
     }
-    .section-card {
-      background: rgba(255,255,255,0.90);
+    .recipe-card {
       border-radius: 1rem;
-      box-shadow: 0 4px 24px 0 rgb(0 0 0 / 7%);
-      margin-bottom:2rem;
-      padding:2rem 1rem;
+      background: #fff;
+      box-shadow: 0 4px 24px rgba(41,99,124,0.08);
+      transition: transform 0.12s;
+      margin-bottom: 1rem;
+      border: 1.5px solid #e5e7eb;
+      overflow: hidden;
     }
-    .active-tab{ background-color:#fbeee0; }
-    /* Remove scrollbars for better pdf export */
-    ::-webkit-scrollbar{width:0;background:transparent;}
-    .color-bulle {border-radius: 9999px; width: 1.1rem; height: 1.1rem; display: inline-block;}
-    .bg-glow {box-shadow: 0 0 20px 3px #00e1c8a2;}
-    .overflow-y-auto {overflow-y: visible;}
-    .tab-btn { transition: all 0.16s;}
-    .tab-btn.active { color: #f69c2a; border-bottom: 3px solid #f7d976;}
-    /* For PDF visual optimization */
+    .recipe-card:hover { transform: translateY(-2px) scale(1.01);}
+    .section-title {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 0.6em;
+      color: #007963;
+    }
+    .motiv-quote {
+      background: linear-gradient(90deg, #bae6fd 50%, #f0fdf4 100%);
+      font-style:italic;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      color: #02616d;
+      font-size: 1.08rem;
+    }
+    .day-title {
+      font-size: 1.6em;
+      color: #00887a;
+      font-weight: 700;
+      margin-bottom: 0.4em;
+      margin-top: 2em;
+      display: flex;
+      align-items:center;
+      gap:0.5em;
+    }
+    .meal-title {
+      font-size: 1.17em;
+      font-weight: 600;
+      color: #303B4F;
+      margin: 0.45em 0 0.15em 0;
+      display: flex;
+      align-items:center;
+      gap: 0.5em;
+    }
+    .ingredient-list {
+      margin-left: 1.1em;
+      margin-bottom: 0.5em;
+      list-style: disc;
+      color:#365047;
+    }
+    .prep-steps {
+      margin-left: 1.3em;
+      list-style-type:decimal;
+      color:#234244;
+    }
+    .week-shopping {
+      background: linear-gradient(90deg,#e0f2fe 50%, #f0fdf4 100%);
+      padding: 1.5em;
+      border-radius: 1rem;
+      margin-bottom: 2em;
+      margin-top: 1.2em;
+      box-shadow: 0px 1px 6px 0px #a7f3d0;
+    }
+    .water-tracker-glass {
+      width: 32px;
+      height: 48px;
+      margin: 0 2px;
+      display: inline-block;
+      background: #dbeafe;
+      border-radius: 0 0 10px 10px/1 1 16px 16px;
+      border:2px solid #096a5e;
+    }
+    .water-tracker-glass.full {
+      background: linear-gradient(180deg,#38bdf8, #a7f3d0, #fff);
+      border: 2px solid #14b8a6;
+    }
+    .water-label{
+      font-size: 1.18rem;
+      font-weight: 500;
+      color: #036672;
+      padding-bottom:0.5em;
+    }
+    .step-label{
+      color:#10b981;
+      font-size:1.02em;
+    }
+    .scrollbar-hide{
+      scrollbar-width:none;
+      -ms-overflow-style:none;
+    }
+    .scrollbar-hide::-webkit-scrollbar{display:none;}
+    @media (max-width: 640px){
+      .section-title{font-size:1.28rem;}
+      .day-title{font-size:1.12em;}
+      .recipe-card{padding:0.5em}
+      .week-shopping{padding:0.75em;}
+      .motiv-quote{font-size:0.98em;}
+      .meal-title{font-size:1em;}
+    }
+    /* For PDF export: better colors on white bg */
     @media print {
-      html, body { overflow: visible !important; }
-      body { background: #fff; }
+      body {
+        background: #fff !important;
+        color: #1f242a !important;
+      }
+      .motiv-quote, .week-shopping {
+        background: #f4f4f4 !important;
+        box-shadow: none !important;
+      }
+      .recipe-card {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+      }
     }
   </style>
-</head>
-<body class="min-h-screen">
-  <!-- Header & Navigation -->
-  <header class="w-full bg-gradient-to-r from-teal-400 via-yellow-200 to-pink-200 shadow-md sticky top-0 z-10 print:hidden">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between">
-      <h1 class="text-3xl sm:text-4xl rainbow-text text-center mb-3 sm:mb-0">Plan Alimentaire Anti-Inflammatoire <span class="text-base text-teal-600">(21 jours uniques)</span></h1>
-      <nav class="w-full sm:w-auto flex items-center justify-center">
-        <button class="tab-btn font-semibold px-3 py-2 mx-1 text-teal-700 focus:outline-none transition active" data-tab="programme"><i class="fa-solid fa-utensils"></i> Programme</button>
-        <button class="tab-btn font-semibold px-3 py-2 mx-1 text-yellow-800 focus:outline-none transition" data-tab="courses"><i class="fa-solid fa-cart-shopping"></i> Courses</button>
-        <button class="tab-btn font-semibold px-3 py-2 mx-1 text-pink-700 focus:outline-none transition" data-tab="eau"><i class="fa-solid fa-glass-water"></i> Eau</button>
-        <button class="tab-btn font-semibold px-3 py-2 mx-1 text-indigo-700 focus:outline-none transition" data-tab="journal"><i class="fa-solid fa-face-smile"></i> Bien-être</button>
-        <button class="tab-btn font-semibold px-3 py-2 mx-1 text-blue-700 focus:outline-none transition" data-tab="infos"><i class="fa-solid fa-circle-info"></i> Conseils</button>
-      </nav>
-    </div>
-  </header>
-
-  <main class="max-w-6xl mx-auto px-4">
-    <!-- Programme -->
-    <section id="programme" class="tab-content section-card active">
-      <div class="mb-6 flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
-        <h2 class="text-2xl rainbow-text"><i class="fa-solid fa-calendar-days"></i> 21 Jours de Recettes Uniques - Programme</h2>
-        <div class="flex items-center space-x-2">
-          <label for="jour-select" class="font-semibold text-teal-800">Aller au jour : </label>
-          <select id="jour-select" class="rounded px-2 py-1 border border-yellow-300 bg-yellow-50 focus:ring-2 ring-teal-200 text-teal-800 font-bold">
-            <!-- Options added by JS -->
-          </select>
-        </div>
-      </div>
-      <div id="recette-container" class="space-y-6"></div>
-      <div class="flex items-center justify-between mt-8">
-        <button class="prev-jour-btn px-5 py-2 font-bold rounded-full bg-gradient-to-r from-pink-200 to-blue-200 text-teal-800 hover:from-pink-400 hover:to-blue-400 transition" type="button"><i class="fa-solid fa-chevron-left"></i> Précédent</button>
-        <button class="next-jour-btn px-5 py-2 font-bold rounded-full bg-gradient-to-r from-yellow-200 to-teal-200 text-pink-800 hover:from-yellow-400 hover:to-teal-400 transition" type="button">Suivant <i class="fa-solid fa-chevron-right"></i></button>
-      </div>
-    </section>
-
-    <!-- Liste de Courses -->
-    <section id="courses" class="tab-content section-card hidden">
-      <h2 class="text-2xl rainbow-text mb-6"><i class="fa-solid fa-cart-shopping"></i> Listes de Courses - 3 Semaines</h2>
-      <div id="courses-lists" class="space-y-8">
-        <!-- Listes ajoutées via JS -->
-      </div>
-    </section>
-
-    <!-- Suivi Eau -->
-    <section id="eau" class="tab-content section-card hidden">
-      <div class="flex flex-col sm:flex-row items-center justify-between mb-6">
-        <h2 class="text-2xl rainbow-text mb-2 sm:mb-0"><i class="fa-solid fa-glass-water"></i> Suivi de votre hydratation !</h2>
-        <span class="text-lg text-teal-800 flex items-center gap-2"><i class="fa-solid fa-droplet text-blue-400"></i> Objectif : <span class="font-bold text-yellow-600">8 verres / jour</span></span>
-      </div>
-      <div class="bg-gradient-to-br from-blue-50 via-teal-100 to-yellow-50 p-3 rounded-2xl shadow-md mb-6 flex flex-col sm:flex-row gap-6 items-center sm:justify-evenly">
-        <div class="flex flex-col items-center">
-          <canvas id="waterChart" width="112" height="112"></canvas>
-          <div class="mt-2 text-center text-blue-700 font-bold text-xl" id="water-count">
-            0 / 8 verres
-          </div>
-          <div class="flex mt-3 gap-1">
-            <button id="water-minus" class="px-3 py-1 rounded-l-xl bg-blue-200 text-xl text-blue-700 font-extrabold hover:bg-blue-400 focus:outline-none"><i class="fa-solid fa-minus"></i></button>
-            <button id="water-plus" class="px-3 py-1 rounded-r-xl bg-blue-200 text-xl text-blue-700 font-extrabold hover:bg-blue-400 focus:outline-none"><i class="fa-solid fa-plus"></i></button>
-          </div>
-        </div>
-        <div class="flex-1">
-          <ul class="text-teal-800 pl-4 list-inside list-disc">
-            <li>Buvez régulièrement tout au long de la journée.</li>
-            <li>Préférez l’eau pure, ou ajoutez des fruits frais.</li>
-            <li>Remplissez votre verre dès le réveil et avant chaque repas.</li>
-            <li>L’hydratation aide la vitalité & la bonne humeur !</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Journal Bien-être -->
-    <section id="journal" class="tab-content section-card hidden">
-      <h2 class="text-2xl rainbow-text mb-6"><i class="fa-solid fa-face-smile"></i> Suivi Bien-être & Humeurs</h2>
-      <p class="mb-2 text-yellow-900">Notez vos sensations du jour selon votre énergie et humeur, pour visualiser vos progrès !</p>
-      <form id="wellbeing-form" class="flex flex-col sm:flex-row items-end gap-6 mb-6">
-        <div>
-          <label for="wb-date" class="block mb-1 text-teal-700 font-semibold">Date</label>
-          <input type="date" id="wb-date" required class="px-2 py-1 rounded border border-yellow-300 bg-yellow-50" />
-        </div>
-        <div>
-          <label class="block mb-1 text-teal-700 font-semibold">Énergie</label>
-          <input type="range" min="1" max="10" value="5" id="wb-energie" class="w-32 accent-teal-500" />
-          <span id="wb-energie-val" class="font-semibold text-yellow-700 mx-2">5</span>/10
-        </div>
-        <div>
-          <label class="block mb-1 text-teal-700 font-semibold">Humeur</label>
-          <select id="wb-mood" class="px-2 py-1 rounded border border-pink-300 bg-pink-50">
-            <option value="excellent">Excellent</option>
-            <option value="sourire">Sourire</option>
-            <option value="calme">Calme</option>
-            <option value="moyen">Moyen</option>
-            <option value="fatigué">Fatigué</option>
-            <option value="bas">Bas</option>
-          </select>
-        </div>
-        <button type="submit" class="px-4 py-2 rounded-xl bg-gradient-to-r from-yellow-300 via-pink-200 to-blue-200 hover:from-yellow-400 hover:to-blue-300 font-bold text-teal-900 shadow flex items-center gap-2"><i class="fa-solid fa-plus"></i> Ajouter</button>
-      </form>
-      <div>
-        <canvas id="wellbeingChart" height="130"></canvas>
-      </div>
-      <div id="wb-history" class="mt-6 space-y-2 max-h-[300px] overflow-y-auto"></div>
-    </section>
-
-    <!-- Conseils & Infos -->
-    <section id="infos" class="tab-content section-card hidden">
-      <h2 class="text-2xl rainbow-text mb-4"><i class="fa-solid fa-bolt"></i> Conseils & Astuces</h2>
-      <div class="mb-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div class="bg-gradient-to-bl from-pink-50 via-yellow-50 to-teal-50 p-4 rounded-xl">
-          <h3 class="text-lg font-bold text-pink-700 mb-2"><i class="fa-solid fa-leaf"></i> Principes clés</h3>
-          <ul class="list-inside pl-3 text-teal-800">
-            <li class="mb-1"><span class="color-bulle bg-teal-400"></span> Des aliments frais et naturels au quotidien</li>
-            <li class="mb-1"><span class="color-bulle bg-yellow-300"></span> Beaucoup de légumes de saison et de fruits</li>
-            <li class="mb-1"><span class="color-bulle bg-pink-400"></span> Poissons, légumineuses, noix, graines : à privilégier</li>
-            <li class="mb-1"><span class="color-bulle bg-blue-300"></span> Privilégier le fait maison, limiter l’industriel</li>
-          </ul>
-        </div>
-        <div class="bg-gradient-to-tr from-yellow-50 via-pink-50 to-teal-50 p-4 rounded-xl">
-          <h3 class="text-lg font-bold text-yellow-700 mb-2"><i class="fa-solid fa-lightbulb"></i> Astuces plaisir</h3>
-          <ul class="list-disc pl-3 text-pink-800">
-            <li>Variez les couleurs dans l’assiette !</li>
-            <li>Testez de nouvelles épices douces (curcuma, cumin, cannelle...)</li>
-            <li>Préparez des snacks sains à l’avance pour éviter les tentations</li>
-            <li>Partagez les repas en famille, la convivialité compte aussi !</li>
-          </ul>
-        </div>
-        <div class="bg-gradient-to-tr from-blue-50 via-yellow-50 to-pink-50 p-4 rounded-xl col-span-1 sm:col-span-2">
-          <h3 class="text-lg font-bold text-blue-700 mb-2"><i class="fa-solid fa-circle-question"></i> FAQ rapide</h3>
-          <ul class="list-inside pl-3 text-blue-800">
-            <li><b>Combien de fruits/légumes par jour ?</b> Au moins 5, et le plus coloré possible !</li>
-            <li><b>Puis-je remplacer certains aliments ?</b> Oui, selon vos goûts. L’essentiel est la variété.</li>
-            <li><b>Faut-il tout faire maison ?</b> Pas forcément, mais le moins transformé, le mieux.</li>
-            <li><b>Dois-je bannir absolument tous les plaisirs ?</b> Non – intégrez simplement plus de bons aliments et faites-vous plaisir raisonnablement.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="bg-white/90 p-3 rounded-xl mt-4">
-        <blockquote class="italic text-lg text-pink-700 mb-1">« Chaque bouchée est une occasion de prendre soin de vous ! »</blockquote>
-        <span class="text-teal-800 font-bold">- L’équipe du Bien-Manger 🌱</span>
-      </div>
-    </section>
-  </main>
-  
   <script>
-    // ----------- PROGRAMME RECETTES 21 JOURS ------------
-    // 21 jours, 4 recettes/jour, toutes uniques, représentées ici par échantillon et structure concise pour lisibilité.
-    // Pour la version finale, il est possible de remplacer ces exemples par des recettes détaillées.
-    const recettes = [
-    // Les 21 blocs sont générés pour garantir la diversité.
-    ...Array.from({length:21}, (_,day)=>({
-      jour: day+1,
-      petitdej: {
-        titre:[
-          "Smoothie bowl vitaminé",
-          "Porridge flocons de sarrasin & poire",
-          "Toasts patate douce/avocat et oeuf mollet",
-          "Chia pudding lait coco & kiwi",
-          "Omelette épinards-champignons",
-          "Bol de fromage blanc, grenade & noix",
-          "Granola maison miellé",
-          "Crème de millet poire-pécan",
-          "Pain de seigle, houmous & tomate",
-          "Muesli pommes & fruits rouges",
-          "Pancakes à la banane, graines de chia",
-          "Verrine mangue-griottes et amandes",
-          "Soupe de fruits frais & menthe",
-          "Tartine noisette-banane",
-          "Œufs brouillés coriandre, toast pois chiche",
-          "Pudding Millet-coco-framboise",
-          "Smoothie vert pomme-kale-avocat",
-          "Bouillie de quinoa cannelle-pomme",
-          "Pain complet, tartinade lentilles corail",
-          "Energy bowl framboise-coco",
-          "Granola sarrasin, yaourt brebis, kiwi"
-        ][day],
-        ingredients:[
-          "1 banane, 1 kiwi, 100g fruits rouges, 2 càs flocons avoine, 100ml lait végétal, noix de coco râpée"
-        ],
-        instructions:[
-          "Mixez la banane avec le kiwi et les fruits rouges, ajoutez le lait végétal.",
-          "Versez dans un bol, parsemez de flocons d’avoine et de noix de coco."
-        ]
-      },
-      dejeuner: {
-        titre:[
-          "Salade quinoa-lentilles, pois gourmands & pesto basilic",
-          "Filet de truite, épinards frais & patate douce",
-          "Curry de pois chiche, riz complet & coriandre",
-          "Bowl de sarrasin, légumes rôtis, crevettes & sauce tahini",
-          "Tajine végétal légumes & pois chiche, semoule millet",
-          "Poulet rôti au citron, wok brocoli-noix de cajou",
-          "Lasagnes végétariennes courgette-aubergine-lentille",
-          "Taboulé de millet, poivron, menthe et tomates cerises",
-          "Poêlée de tofu, champignons, carotte et pâte de sésame",
-          "Soupe froide petits pois-menthe/toast pois chiche",
-          "Papillote de saumon, fenouil et maïs grillés",
-          "Salade de riz sauvage, mangue, poulet grillé",
-          "Poêlée de crevettes, légumes verts et ail",
-          "Buddha bowl betterave, pois chiche, avocat",
-          "Quinoa vert (épinard/avocat), œuf poché",
-          "Dahl de lentilles corail & riz basmati",
-          "Courgettes farcies quinoa-veggies, sauce tomate",
-          "Gratin patate douce-épinards et ricotta",
-          "Ratatouille provençale & steak de thon poêlé",
-          "Salade composée riz noir, légumes croquants",
-          "Omelette p.douce-courgette, salade croquante"
-        ][day],
-        ingredients:[
-          "80g quinoa, 50g lentilles, 50g pois gourmands, 1 càs pesto basilic, 1 poignée d’arugula, Huile d’olive, sel, poivre"
-        ],
-        instructions:[
-          "Faites cuire le quinoa et les lentilles séparément. Égouttez.",
-          "Mélangez tous les ingrédients, ajoutez le pesto, arrosez d’un filet d’huile d’olive."
-        ]
-      },
-      collation: {
-        titre:[
-          "Fruits frais & noisettes",
-          "Smoothie vert pomme-épinard",
-          "Compote maison & noix de cajou",
-          "Tartine purée d’amande & abricots secs",
-          "Bâtonnets de légumes & houmous",
-          "Boules énergie datte-coco",
-          "Pomme au four cannelle-graines de chia",
-          "Yaourt végétal et kiwi",
-          "Barre granola maison",
-          "Rolls concombre-betterave",
-          "Energy balls figue-amande",
-          "Clafoutis cerise allégé",
-          "Bâtonnets de patate douce grillée",
-          "Abricots secs farcis noix",
-          "Poire-pécan, yaourt nature",
-          "Banane à croquer & carrés chocolat noir",
-          "Verrine fromage blanc, mûre et noix",
-          "Smoothie orange-carotte-citron",
-          "Muffin aux myrtilles (sans gluten)",
-          "Panier fruits frais de saison",
-          "Tranches mangue & pistaches"
-        ][day],
-        ingredients:[
-          "1 pomme, 1 poignée de noisettes"
-        ],
-        instructions:[
-          "Coupez la pomme en quartiers, servez avec les noisettes."
-        ]
-      },
-      diner: {
-        titre:[
-          "Poisson vapeur au curcuma, Purée carotte-potimarron",
-          "Gratin courgette-tomate & filet dinde",
-          "Potage de légumes verts, œuf mollet",
-          "Salade tiède patate douce-poulet-citron",
-          "Risotto de riz complet, poireaux, crevettes",
-          "Curry coco, poêlée légumes verts et riz basmati",
-          "Soupe froide tomate-basilic & tartine houmous",
-          "Wok légumes, nouilles sarrasin & tofu rôti",
-          "Galettes pois chiche & salade roquette",
-          "Poulet au four, pommes grenailles-herbes",
-          "Risotto petits pois-citron et noix",
-          "Saumon grillé, salade fenouil-orange",
-          "Gratin courge butternut & noisettes",
-          "Crêpes pois chiche/épinards, salade verte",
-          "Salade tiède haricots mungo & légumes racines",
-          "Ratatouille & steak végétal maison",
-          "Filet merlu, carotte cumin et semoule sarrasin",
-          "Tartines aubergines, tapenade & tomates rôties",
-          "Chili végétarien & riz complet",
-          "Gratin épinards/riz sauvage, noisettes",
-          "Soupe de lentilles corail, coriandre"
-        ][day],
-        ingredients:[
-          "1 filet poisson blanc, 2 carottes, 1/2 potimarron, 1/2 citron, curcuma en poudre, huile olive, sel, poivre"
-        ],
-        instructions:[
-          "Cuire les carottes et le potimarron, puis mixer avec un filet d’huile d’olive.",
-          "Cuire le poisson à la vapeur, parsemer de curcuma et d’un peu de citron."
-        ]
-      }
-    }))
-    ];
-
-    // ----------- RENDER LOGIC -----------
-    // Add days to selector
-    const jourSelect = document.getElementById("jour-select");
-    for(let i=1;i<=21;i++) {
-      let opt = document.createElement("option");
-      opt.value = i-1;
-      opt.innerText = "Jour "+i;
-      jourSelect.appendChild(opt);
-    }
-    let jourIndex = 0;
-
-    function renderRecette(dayIdx) {
-      jourSelect.value = dayIdx;
-      const data = recettes[dayIdx];
-      let container = document.getElementById("recette-container");
-      container.innerHTML = `
-      <div>
-        <p class="mb-1 text-sm"><span class="text-yellow-700 font-bold"><i class="fa-solid fa-sun"></i> Jour ${data.jour}</span></p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="bg-yellow-50 rounded-xl border border-yellow-200 shadow px-4 py-3">
-            <h3 class="text-xl font-bold mb-1 text-pink-800"><i class="fa-solid fa-mug-hot"></i> Petit-déjeuner: ${data.petitdej.titre}</h3>
-            <div class="mb-1 text-sm text-yellow-800"><i class="fa-solid fa-lemon"></i> Ingrédients:</div>
-            <ul class="mb-1 pl-5 text-teal-900 list-disc">${data.petitdej.ingredients.map(i=>`<li>${i}</li>`).join("")}</ul>
-            <div class="mb-1 text-sm text-yellow-800"><i class="fa-solid fa-list"></i> Prépa :</div>
-            <ol class="pl-5 list-decimal text-teal-800">${data.petitdej.instructions.map(i=>`<li>${i}</li>`).join("")}</ol>
-          </div>
-          <div class="bg-green-50 rounded-xl border border-teal-100 shadow px-4 py-3">
-            <h3 class="text-xl font-bold mb-1 text-green-700"><i class="fa-solid fa-leaf"></i> Déjeuner: ${data.dejeuner.titre}</h3>
-            <div class="mb-1 text-sm text-teal-900"><i class="fa-solid fa-lemon"></i> Ingrédients:</div>
-            <ul class="mb-1 pl-5 text-teal-900 list-disc">${data.dejeuner.ingredients.map(i=>`<li>${i}</li>`).join("")}</ul>
-            <div class="mb-1 text-sm text-teal-900"><i class="fa-solid fa-list"></i> Prépa :</div>
-            <ol class="pl-5 list-decimal text-teal-800">${data.dejeuner.instructions.map(i=>`<li>${i}</li>`).join("")}</ol>
-          </div>
-          <div class="bg-pink-50 rounded-xl border border-pink-100 shadow px-4 py-3">
-            <h3 class="text-xl font-bold mb-1 text-yellow-700"><i class="fa-solid fa-apple-whole"></i> Collation: ${data.collation.titre}</h3>
-            <div class="mb-1 text-sm text-pink-800"><i class="fa-solid fa-lemon"></i> Ingrédients:</div>
-            <ul class="mb-1 pl-5 text-pink-900 list-disc">${data.collation.ingredients.map(i=>`<li>${i}</li>`).join("")}</ul>
-            <div class="mb-1 text-sm text-pink-800"><i class="fa-solid fa-list"></i> Prépa :</div>
-            <ol class="pl-5 list-decimal text-pink-800">${data.collation.instructions.map(i=>`<li>${i}</li>`).join("")}</ol>
-          </div>
-          <div class="bg-blue-50 rounded-xl border border-blue-100 shadow px-4 py-3">
-            <h3 class="text-xl font-bold mb-1 text-blue-700"><i class="fa-solid fa-bowl-food"></i> Dîner: ${data.diner.titre}</h3>
-            <div class="mb-1 text-sm text-blue-800"><i class="fa-solid fa-lemon"></i> Ingrédients:</div>
-            <ul class="mb-1 pl-5 text-blue-900 list-disc">${data.diner.ingredients.map(i=>`<li>${i}</li>`).join("")}</ul>
-            <div class="mb-1 text-sm text-blue-800"><i class="fa-solid fa-list"></i> Prépa :</div>
-            <ol class="pl-5 list-decimal text-blue-800">${data.diner.instructions.map(i=>`<li>${i}</li>`).join("")}</ol>
-          </div>
-        </div>
-      </div>
-      `;
-    }
-    renderRecette(0);
-
-
-    // ----- NAVIGATION JOURS -----
-    document.querySelector(".prev-jour-btn").onclick = ()=>{
-      jourIndex = (jourIndex + 20) % 21;
-      renderRecette(jourIndex);
-    };
-    document.querySelector(".next-jour-btn").onclick = ()=>{
-      jourIndex = (jourIndex + 1) % 21;
-      renderRecette(jourIndex);
-    };
-    jourSelect.onchange = function() {
-      jourIndex = parseInt(this.value,10);
-      renderRecette(jourIndex);
-    };
-
-    // ----------- LISTE COURSES -----------
-    const coursesByWeek = [
-      {
-        titre: "Semaine 1 (Jours 1-7)",
-        color: "border-l-8 border-yellow-400",
-        items:[
-          "Bananes, kiwis, pommes, poires, fruits rouges, grenade, mangue", "Patate douce, courgette, aubergine, épinard, carottes, brocoli, poireaux, champignons, tomates",
-          "Céréales : flocons sarrasin, quinoa, riz complet, millet, muesli sans sucre, pain seigle ou complet", 
-          "Légumineuses : pois chiches, lentilles, haricots mungo", 
-          "Poisson blanc, truite, crevettes, poulet, tofu", 
-          "Noix, amandes, noisettes, pistaches, graines de chia, graines de courge", 
-          "Lait végétal (amande, coco, avoine), yaourt nature",
-          "Herbes fraîches : menthe, coriandre, basilic, persil",
-          "Épices : curcuma, cannelle, gingembre doux, cumin",
-          "Huile d’olive vierge, huile de noix, tahini, miel"
-        ]
-      },
-      {
-        titre: "Semaine 2 (Jours 8-14)",
-        color: "border-l-8 border-teal-400",
-        items:[
-          "Pomme, mûre, raisin, abricot, framboise, orange, citron, grenade",
-          "Carotte, betterave, fenouil, courge butternut, patate douce, concombre, tomates cerises, avocat",
-          "Sarrasin, riz sauvage, pain complet, pain pois chiche, galette millet",
-          "Lentilles corail, haricots rouges, pois cassés",
-          "Poulet, dinde, saumon, steak thon, œufs fermiers",
-          "Noix de cajou, pécans, graines tournesol/lin, amandes effilées",
-          "Fromage blanc, yaourt végétal",
-          "Herbes variées, ail, épices douces",
-          "Huiles : olive, colza, coco",
-          "Olives, tapenade, purées d’oléagineux"
-        ]
-      },
-      {
-        titre: "Semaine 3 (Jours 15-21)",
-        color: "border-l-8 border-pink-400",
-        items:[
-          "Fruits divers : myrtille, fraise, papaye, pomme, poire, kiwi",
-          "Légumes : courgette, aubergine, épinard, chou-fleur, artichaut, roquette, roquefort",
-          "Chia, quinoa, riz complet, flocons millet, biscuits sans gluten maison",
-          "Pois chiche, lentilles, haricots blancs",
-          "Saumon, poisson blanc, œuf, tofu, steak végétal maison",
-          "Noix, noisettes, noix du Brésil, beurre d’amande",
-          "Crème végétale, fromage végétal",
-          "Épices, graines diverses, herbes fraîches",
-          "Huiles végétales variées",
-          "Citron, vinaigre balsamique, miel"
-        ]
-      }
-    ];
-    const coursesLists = document.getElementById("courses-lists");
-    coursesByWeek.forEach(sem=>{
-      let block = document.createElement("div");
-      block.className = "bg-white/80 rounded-2xl p-5 shadow " + sem.color;
-      block.innerHTML = `<h3 class="text-lg mb-2 font-bold text-yellow-700"><i class="fa-solid fa-basket-shopping"></i> ${sem.titre}</h3>
-      <ul class="pl-6 list-disc text-teal-900">
-        ${sem.items.map(x=>`<li>${x}</li>`).join("")}
-      </ul>`;
-      coursesLists.appendChild(block);
-    });
-
-    // ----------- SUIVI EAU : CHARTJS + STATE LOCALSTORAGE -----------
-    let waterVal = parseInt(localStorage.getItem("waterVal")||"0",10);
-    function renderWater() {
-      document.getElementById("water-count").textContent = `${waterVal} / 8 verres`;
-      waterChart.data.datasets[0].data[0] = waterVal;
-      waterChart.data.datasets[0].data[1] = Math.max(0,8-waterVal);
-      waterChart.update();
-    }
-    document.getElementById("water-plus").onclick = ()=>{
-      if(waterVal<8)waterVal+=1;
-      localStorage.setItem("waterVal",waterVal);
-      renderWater();
-    };
-    document.getElementById("water-minus").onclick = ()=>{
-      if(waterVal>0)waterVal-=1;
-      localStorage.setItem("waterVal",waterVal);
-      renderWater();
-    };
-    // ChartJs donut
-    let waterChart = new Chart(document.getElementById('waterChart').getContext('2d'),{
-      type: 'doughnut',
-      data: {
-        labels: ['Bu','Rest'],
-        datasets: [{
-          label: 'Verres d\'eau',
-          data: [waterVal,8-waterVal],
-          backgroundColor: [
-            '#38bdf8','#fde68a'
-          ],
-          borderWidth: 0
-        }]
-      },
-      options: {
-        cutout: '70%',
-        plugins: {
-          legend: { display:false },
-          tooltip: { enabled:false }
+    document.addEventListener("DOMContentLoaded",function(){
+      const waterKey = "ai_me_water_tracker";
+      const glasses = 8;
+      // Render glasses state from localStorage
+      function renderGlasses(){
+        let val = parseInt(localStorage.getItem(waterKey)||"0");
+        let html="";
+        for(let i=0;i<glasses;++i){
+          html+=`<span class="water-tracker-glass${i<val?' full':''}" onclick="drinkWater(${i+1})" title="Verre ${i+1}"></span>`;
         }
+        document.getElementById('water-glasses').innerHTML = html;
+        document.getElementById('water-counter').textContent = `${val} / ${glasses} verres`;
       }
-    });
-    renderWater();
-
-    // ----------- SUIVI BIEN-ÊTRE --------------
-    let wbData = JSON.parse(localStorage.getItem("wbData")||"[]");
-    const form = document.getElementById("wellbeing-form");
-    const energieInput = document.getElementById("wb-energie");
-    const energieVal = document.getElementById("wb-energie-val");
-    energieInput.oninput = (e)=>{energieVal.textContent = e.target.value;}
-    function updateWBChart() {
-      let chartLabel = wbData.map(e=>e.date);
-      let chartVal = wbData.map(e=>e.energie);
-      wellbeingChart.data.labels = chartLabel;
-      wellbeingChart.data.datasets[0].data = chartVal;
-      wellbeingChart.update();
-    }
-    function updateWBHistory() {
-      let hist = document.getElementById("wb-history");
-      hist.innerHTML = wbData.length ? "<h4 class='font-bold text-indigo-700 mb-2'>Historique :</h4>":"";
-      wbData.slice().reverse().forEach(wb=>{
-        let face = {
-          excellent:"fa-face-grin-stars",
-          sourire:"fa-face-grin",
-          calme:"fa-face-smile",
-          moyen:"fa-face-meh",
-          fatigué:"fa-face-tired",
-          bas:"fa-face-frown"
-        }[wb.humeur] || "fa-face-smile";
-        let couleur = {
-          excellent:"text-yellow-500",
-          sourire:"text-blue-400",
-          calme:"text-green-500",
-          moyen:"text-gray-500",
-          fatigué:"text-red-400",
-          bas:"text-pink-400"
-        }[wb.humeur] || "text-blue-400";
-        let div = document.createElement("div");
-        div.className = "flex items-center gap-3 border-b border-gray-100 pb-1";
-        div.innerHTML = `<span class="${couleur} text-lg"><i class="fa-solid ${face}"></i></span>
-        <span class="font-bold">${wb.date}</span>
-        <span>Énergie <b>${wb.energie}/10</b></span>
-        <span>Humeur : ${wb.humeur[0].toUpperCase()+wb.humeur.slice(1)}</span>`;
-        hist.appendChild(div);
-      });
-    }
-    // ChartJs pour Bien-être
-    let wellbeingChart = new Chart(document.getElementById('wellbeingChart').getContext('2d'),{
-      type:'line',
-      data:{
-        labels: wbData.map(e=>e.date),
-        datasets:[{
-          label:"Énergie",
-          data: wbData.map(e=>e.energie),
-          fill:true,
-          backgroundColor: 'rgba(37,99,235,0.11)',
-          borderColor:'#38bdf8',
-          borderWidth:2,
-          tension:0.25,
-          pointBackgroundColor:'#38bdf8',
-          pointRadius:5
-        }]
-      },
-      options:{
-        plugins:{
-          legend:{display:false}
-        },
-        scales: {
-          y: { min: 0, max: 10, ticks:{stepSize:1}}
-        }
+      window.drinkWater = function (num){
+        localStorage.setItem(waterKey, num);
+        renderGlasses();
       }
-    });
-    updateWBHistory();
-    updateWBChart();
-    form.onsubmit = function(e){
-      e.preventDefault();
-      let rd = document.getElementById("wb-date").value;
-      let energie = parseInt(document.getElementById("wb-energie").value,10);
-      let humeur = document.getElementById("wb-mood").value;
-      wbData.push({date:rd,energie,humeur});
-      localStorage.setItem("wbData",JSON.stringify(wbData));
-      updateWBHistory();
-      updateWBChart();
-      form.reset();
-      energieVal.textContent = '5';
-      return false;
-    };
-
-    // -------------- TABS --------------
-    const tabBtns = document.querySelectorAll(".tab-btn");
-    const tabContents = document.querySelectorAll(".tab-content");
-    tabBtns.forEach(btn=>{
-      btn.onclick = ()=>{
-        tabBtns.forEach(el=>el.classList.remove("active"));
-        btn.classList.add("active");
-        tabContents.forEach(tab=>{
-          tab.classList.add("hidden");
+      window.resetWater = function (){
+        localStorage.setItem(waterKey, "0");
+        renderGlasses();
+      }
+      renderGlasses();
+      // Smooth scroll for navigation links
+      document.querySelectorAll('.scroll-link').forEach(el=>{
+        el.addEventListener('click', function(e){
+          e.preventDefault();
+          let id = this.getAttribute('href').replace('#','');
+          let section = document.getElementById(id);
+          if(section){
+            window.scrollTo({top:section.offsetTop-24,behavior:'smooth'});
+          }
         });
-        document.getElementById(btn.getAttribute("data-tab")).classList.remove("hidden");
-        document.getElementById(btn.getAttribute("data-tab")).classList.add("active");
-        // Scroll on tab switch for PDF/export readability
-        if(window.innerWidth<800)window.scrollTo(0,0);
-      }
+      });
     });
   </script>
+</head>
+<body class="antialiased">
+
+<header class="w-full fixed top-0 left-0 z-20 shadow-md bg-white bg-opacity-90">
+  <nav class="flex items-center justify-between px-4 sm:px-10 py-2">
+    <div class="flex items-center space-x-2 text-2xl font-extrabold text-teal-700 tracking-wide">
+      <i class="fas fa-leaf text-green-500"></i>
+      <span>ai-me.fr</span>
+    </div>
+    <div class="hidden md:flex space-x-5 font-medium text-base">
+      <a href="#programme" class="hover:text-teal-600 transition scroll-link">Programme</a>
+      <a href="#liste-courses" class="hover:text-teal-600 transition scroll-link">Liste de courses</a>
+      <a href="#hydratation" class="hover:text-teal-600 transition scroll-link">Hydratation</a>
+      <a href="#infos" class="hover:text-teal-600 transition scroll-link">Conseils</a>
+    </div>
+  </nav>
+</header>
+
+<main class="mt-20 px-2 sm:px-8 max-w-4xl mx-auto">
+
+  <!-- Title -->
+  <section id="accueil" class="mb-8">
+    <h1 class="section-title text-center mb-2">Plan Alimentaire Anti-Inflammatoire <br class="hidden sm:inline"> <span class="text-lg block mt-2 font-semibold text-teal-700">Programme Complet de 21 Jours</span></h1>
+    <div class="mx-auto max-w-xl text-base md:text-lg text-gray-700 text-center">
+      Retrouvez votre vitalité avec notre programme anti-inflammatoire de 21 jours ! 84 recettes uniques, une expérience optimisée pour tous les appareils, des conseils bien-être et une motivation quotidienne pour transformer vos habitudes en douceur.<br>
+      <span class="inline-flex mt-2 justify-center text-sm text-teal-700"><i class="far fa-star mr-1"></i> Adapté à tous, sans gluten ni sucres raffinés.</span>
+    </div>
+  </section>
+
+  <!-- Navigation rapide sur mobile -->
+  <div class="flex md:hidden overflow-x-auto scrollbar-hide py-2 pb-3 snap-x mb-4">
+    <a href="#programme" class="block bg-teal-50 hover:bg-teal-100 font-semibold px-3 py-1.5 rounded mr-2 scroll-link snap-center">Programme</a>
+    <a href="#liste-courses" class="block bg-yellow-50 hover:bg-yellow-100 font-semibold px-3 py-1.5 rounded mr-2 scroll-link snap-center">Liste courses</a>
+    <a href="#hydratation" class="block bg-blue-50 hover:bg-blue-100 font-semibold px-3 py-1.5 rounded mr-2 scroll-link snap-center">Hydratation</a>
+    <a href="#infos" class="block bg-green-50 hover:bg-green-100 font-semibold px-3 py-1.5 rounded mr-2 scroll-link snap-center">Conseils</a>
+  </div>
+
+  <!-- Programme 21 jours -->
+  <section id="programme" class="mb-8">
+    <h2 class="section-title"><i class="fa-solid fa-calendar-day mr-2"></i> Programme Complet : Les 21 Jours Uniques</h2>
+
+    <!-- Boucle sur les 21 jours avec phrases et 4 recettes/jour -->
+    <div>
+      <!-- Phrases motivantes pour chaque jour -->
+      <!-- Recettes générées (version courte pour ce texte, à étendre dans une vraie version) -->
+      <ul class="space-y-0">
+        <!-- Jours générés dynamiquement -->
+        <script>
+        // Les phrases motivantes par jour
+        var motivs = [
+          "Aujourd'hui est le premier pas vers plus d'énergie : savoure chaque bouchée !",
+          "Chaque jour tu nourris ton corps et ton esprit : bravo pour ta constance !",
+          "Prends soin de toi, un bon plat = une victoire sur l'inflammation.",
+          "Écoute ton corps, il sait ce dont il a besoin pour s'épanouir chaque jour.",
+          "Ce que tu fais aujourd'hui prépare ton bien-être de demain.",
+          "La diversité dans l'assiette, c'est la clé de l'équilibre.",
+          "Une bonne alimentation, c'est un superpouvoir au quotidien.",
+          "Reste créatif : ose les couleurs et les saveurs, ton corps adore ça.",
+          "Fais le plein de vitamines, tu verras la différence à chaque réveil.",
+          "La santé commence par une seule action : continue sur ta lancée.",
+          "Chaque repas équilibre ton énergie, savoure ce moment.",
+          "Un petit effort de plus, et le bien-être s'installe !",
+          "Sois fier(e) de toi, tu avances à grands pas vers la vitalité.",
+          "Changer, c'est déjà réussir – regarde le chemin parcouru !",
+          "Plus qu'une routine, c'est ton cadeau quotidien pour toi-même.",
+          "Tu rayonnes un peu plus chaque jour grâce à de bons choix !",
+          "Ta motivation raconte une belle histoire à ton futur.",
+          "Grâce à toi, chaque repas est une célébration de la vie.",
+          "Un petit geste santé aujourd'hui, un grand bonheur demain.",
+          "Félicite-toi d'être arrivé(e) aussi loin, tu le mérites !",
+          "Profite pleinement de ce dernier jour et regarde le chemin parcouru."
+        ];
+
+        // Un pool de 84 recettes uniques
+        var recettes = [
+          // jour 1 - exemple
+          [
+            {
+              t:"Smoothie bowl fruits rouges & graines de chia",
+              i:["1 banane", "80g de fruits rouges surgelés","1 cs graines de chia","120ml lait végétal","1 cc miel (optionnel)","topping: noix de coco râpée"],
+              p:["Mixer la banane, les fruits rouges, lait et miel.","Verser dans un bol.","Parsemer de graines de chia et coco râpée."]
+            },
+            {
+              t:"Salade de quinoa, pois chiches & légumes croquants",
+              i:["70g de quinoa cuit","60g pois chiches cuits","½ poivron rouge","½ concombre","5 tomates cerises","Jus d'½ citron", "1 cs d'huile d'olive","Persil frais"],
+              p:["Couper le poivron et concombre en dés, tomates en 2.","Mélanger quinoa, pois chiches, légumes.","Assaisonner avec citron, huile et persil."]
+            },
+            {
+              t:"Yaourt coco graines & baies",
+              i:["1 yaourt soja/coco sans sucre","1 cs graines de courge","30g baies fraîches (myrtilles, groseilles)"],
+              p:['Verser le yaourt dans un bol.','Ajouter graines de courge et baies sur le dessus.']
+            },
+            {
+              t:"Saumon au four, patate douce rôtie & brocoli vapeur",
+              i:["120g filet de saumon frais","1 petite patate douce","100g brocoli","1 cs huile d'olive","Aneth/fines herbes"],
+              p:[ "Préchauffer le four à 180°C.","Couper la patate douce en rondelles, badigeonner d'huile, enfourner 20min.","Poser le saumon, parsemer d'aneth, cuire 12min  supp.","Cuire le brocoli à la vapeur 7min.","Servir l'ensemble chaud."]
+            }
+          ],
+          // jour 2
+          [
+            {
+              t:"Overnight oats poire & cannelle",
+              i:["40g flocons avoine sans gluten","120ml lait végétal","½ poire","1 cc graines de lin","Cannelle"],
+              p:["La veille, mélanger avoine, lait, graines.","Réserver au frais.","Le matin, ajouter poire en dés et cannelle."]
+            },
+            {
+              t:"Tortilla pois chiches, épinards & radis roses",
+              i:["2 œufs","60g pois chiches cuits","50g épinards frais","4 radis","1 cc huile olive"],
+              p:["Battre les œufs, mélanger avec pois chiches et épinards hachés.","Cuire en omelette dans l'huile d'olive.","Servir avec radis émincés."]
+            },
+            {
+              t:"Bâtonnets de carotte & houmous sésame",
+              i:["1 carotte","25g houmous maison","Graines de sésame noir"],
+              p:["Éplucher et couper la carotte en bâtonnets.","Servir avec houmous saupoudré de graines."]
+            },
+            {
+              t:"Poêlée de dinde, pois gourmands & riz complet",
+              i:["90g émincé de dinde","80g pois gourmands","50g riz complet cuit","1 cs huile olive","Ciboulette"],
+              p:["Cuire la dinde 5min dans l'huile.","Ajouter les pois gourmands 4min.","Servir sur le riz, parsemer ciboulette."]
+            }
+          ],
+          // jour 3
+          [
+            {
+              t:"Porridge pomme, amandes & cranberries",
+              i:["40g flocons avoine sans gluten","120ml boisson amande","½ pomme","10g cranberries sèches","½ cc cannelle","10g amandes concassées"],
+              p:["Cuire les flocons dans le lait végétal 5min.","Ajouter pomme râpée, cranberries et amandes.","Parsemer de cannelle."] 
+            },
+            {
+              t:"Taboulé millet, tomate & menthe",
+              i:["60g millet cuit","1 tomate mûre","3 brins menthe fraîche","Jus d'½ citron","1 cs huile olive"],
+              p:["Couper la tomate en dés.","Mélanger millet, tomate, menthe et assaisonnements."]
+            },
+            {
+              t:"Poire & noix de pécan",
+              i:["½ poire","15g noix de pécan"],
+              p:["Couper la poire en tranches.","Déguster avec les noix de pécan."]
+            },
+            {
+              t:"Filet de colin au citron, fenouil & pommes de terre vapeur",
+              i:["120g filet de colin","½ fenouil","100g pommes de terre","1 cs huile olive","Jus d'½ citron"],
+              p:["Cuire les pommes de terre et le fenouil à la vapeur.","Cuire le colin dans l'huile, déglacer au citron.","Servir ensemble."]
+            }
+          ],
+          // jour 4
+          [
+            {
+              t:"Toast sans gluten à l’avocat & œuf mollet",
+              i:["1 tranche pain sans gluten","½ avocat","1 œuf","Coriandre fraîche"],
+              p:["Cuire l’œuf 6min à l’eau bouillante.","Ecraser l’avocat sur le toast.","Ajouter l’œuf coupé sur le dessus, parsemer coriandre."]
+            },
+            {
+              t:"Salade haricots rouges, maïs & poivron",
+              i:["80g haricots rouges cuits","40g maïs","¼ poivron vert","1 cs huile olive","Persil haché"],
+              p:["Mélanger tous les ingrédients.","Assaisonner."]
+            },
+            {
+              t:"Fromage blanc végétal & myrtilles fraîches",
+              i:["120g fromage blanc végétal","35g myrtilles"],
+              p:['Verser le fromage blanc dans un bol, ajouter les myrtilles.']
+            },
+            {
+              t:"Tian de légumes & steak végétal maison",
+              i:["1 petite courgette","½ aubergine","½ tomate","70g steak végétal pois chiche","Herbes de Provence","1 cs huile olive"],
+              p:["Préchauffer le four à 180°C.","Couper tous les légumes en rondelles.","Alterner dans un plat, arroser d'huile et herbes, enfourner 25min.","Cuire le steak végétal à la poêle.","Servir ensemble."]
+            }
+          ],
+          // jour 5
+          [
+            {
+              t:"Crème de chia aux abricots secs",
+              i:["2 cs graines de chia","120ml boisson amande","3 abricots secs","Vanille naturelle"],
+              p:["La veille, mélanger chia, boisson amande, vanille.","Laisser reposer au réfrigérateur.","Le matin, ajouter des abricots secs coupés."]
+            },
+            {
+              t:"Bowl quinoa, avocat & concombre",
+              i:["70g quinoa cuit","½ avocat","¼ concombre","Citron vert","Coriandre"],
+              p:["Écraser l’avocat, presser un peu de citron.","Mélanger tous les ingrédients, parsemer coriandre."]
+            },
+            {
+              t:"Pommes au four cannelle et noix",
+              i:["1 petite pomme","10g noix","Cannelle"],
+              p:["Couper la pomme, saupoudrer de cannelle et noix concassées.","Cuire à 180°C 20min."]
+            },
+            {
+              t:"Filet de truite, épinards sautés, patate douce vapeur",
+              i:["110g filet truite","60g épinards frais","100g patate douce","1 cs huile olive","Persil"],
+              p:["Cuire la patate douce à la vapeur.","Sauter les épinards dans l'huile.","Cuire la truite 8min à la poêle côté peau.","Servir le tout avec du persil."]
+            }
+          ],
+          // jour 6
+          [
+            {
+              t:"Granola maison coco & framboises",
+              i:["30g flocons d’avoine sans gluten","10g noix de coco râpée","½ cc sirop d’agave","50g framboises fraîches","100ml boisson végétale"],
+              p:["Mélangez les flocons, coco râpée, sirop et faites dorer au four 10min à 160°C.","Servir avec boisson végétale et framboises."]
+            },
+            {
+              t:"Riz sauvage, crevettes & courgettes sautées",
+              i:["65g riz sauvage cuit","80g crevettes roses décortiquées","100g courgette","1 cs huile olive","Curry doux"],
+              p:["Sauter les courgettes en dés et les crevettes dans l’huile, saupoudrer de curry.","Servir avec le riz."]
+            },
+            {
+              t:"Kiwi & amandes entières",
+              i:["1 kiwi","12g amandes entières"],
+              p:["Peler et couper le kiwi.","Savourez avec les amandes."]
+            },
+            {
+              t:"Poulet rôti thym-citron, purée carotte-potimarron",
+              i:["90g filet poulet","½ citron","80g carottes","80g potimarron","1 cs huile olive","Thym"],
+              p:["Cuire le poulet au four avec citron et thym 15min à 180°C.","Cuire carotte et potimarron à l’eau, mixer avec huile pour faire une purée.","Servir ensemble."]
+            }
+          ],
+          // jours 7 à 21
+          [
+            // 7
+            {
+              t:"Muesli sans gluten, lait végétal & pommes râpées",
+              i:["40g muesli sans gluten","120ml lait végétal","½ pomme râpée","1 cc raisins secs"],
+              p:["Verser le lait sur le muesli.","Ajouter la pomme et les raisins secs."]
+            },
+            {
+              t:"Salade tiède lentilles, carottes & tomates séchées",
+              i:["70g lentilles cuites","60g carottes râpées","20g tomates séchées","2 cc huile d’olive","Ciboulette"],
+              p:["Mélanger tous les ingrédients.","Servir tiède ou froid."]
+            },
+            {
+              t:"Orange & graines de tournesol",
+              i:["1 petite orange","8g graines de tournesol"],
+              p:["Peler et trancher l’orange.","Parsemer de graines."]
+            },
+            {
+              t:"Filet d’aiglefin vapeur, écrasé de petits pois & quinoa",
+              i:["110g filet aiglefin","60g petits pois","1 cs huile olive","70g quinoa cuit","Aneth"],
+              p:["Cuire l’aiglefin à la vapeur.","Écraser les petits pois et mélanger au quinoa.","Assaisonner à l’aneth et huile."]
+            }
+          ],[
+            // 8
+            {  t:"Pancakes à la banane et flocons de sarrasin",
+              i:["1 banane écrasée","30g flocons de sarrasin","1 œuf","50ml boisson avoine","1 pincée de cannelle"],
+              p:["Mélanger tous les ingrédients.","Cuire à la poêle anti-adhésive 2min de chaque côté."]
+            },
+            {
+              t:"Salade betterave, pomme et noix",
+              i:["50g betterave cuite","½ pomme","15g cerneaux de noix","Persil frais","1 cs vinaigrette légère"],
+              p:["Couper la betterave et la pomme en dés.","Mélanger avec les noix et la vinaigrette. Ajouter le persil."]
+            },
+            {
+              t:"Poêlée de poires et baies au sésame",
+              i:["1 poire","30g myrtilles","10g sésame doré"],
+              p:["Sauter les fruits à sec, saupoudrer de sésame."]
+            },
+            {
+              t:"Tofu rôti, patate douce & épinards frais",
+              i:["80g tofu ferme","120g patate douce","50g épinards","1 cs huile d’olive","Curry doux"],
+              p:["Couper tofu en dés et le patate douce en cubes.","Rôtir 20min à 180°C.","Ajouter les épinards pour qu’ils fanent et assaisonner de curry."]
+            }
+          ],[{
+              // 9
+              t:"Pain sans gluten grillé, purée de pois cassés & radis",
+              i:["1 grande tranche de pain sans gluten","40g pois cassés cuits","4 radis","Un filet d’huile d’olive"],
+              p:["Griller le pain.","Écraser les pois cassés, tartiner sur le pain.","Ajouter radis tranchés, une goutte d’huile."]
+            },{
+              t:"Bouddha bowl blé noir, légumes et œuf poché",
+              i:["50g grains de sarrasin cuits","60g légumes cuits vapeur","1 œuf","Vinaigrette légère"],
+              p:["Placer les grains et légumes dans un bol.","Cuire un œuf poché et disposer sur le dessus.","Arroser de vinaigrette."]
+            },{
+              t:"Ananas frais & noix du Brésil",
+              i:["40g ananas","8g noix du Brésil"],
+              p:["Couper l’ananas et servir avec les noix."]
+            },{
+              t:"Pavé de cabillaud, julienne de légumes au curcuma",
+              i:["100g cabillaud","80g carotte","80g courgette","1 cc curcuma","1 cs huile olive"],
+              p:["Émincer carotte et courgette.","Sauter dans l’huile, ajouter curcuma.","Cuire le cabillaud à la vapeur 12min. Servir dessus."]
+            }
+          ],[
+            // 10
+            {
+              t:"Porridge millet & compote pomme-cannelle maison",
+              i:["30g millet cuit","100 ml boisson riz","1 pomme","Cannelle"],
+              p:["Cuire le millet dans la boisson végétale.","Faire compoter la pomme râpée et un peu cannelle.","Verser la compote sur le porridge."]
+            },{
+              t:"Wrap galette sarrasin, crudités & houmous",
+              i:["1 galette sarrasin","40g carottes râpées","2 feuilles laitue","30g houmous maison"],
+              p:["Garnir la galette de crudités et houmous, rouler fermement, couper en deux."]
+            },{
+              t:"Banane & noix de cajou",
+              i:["1 petite banane","10g noix de cajou"],
+              p:["Couper la banane, saupoudrer de noix de cajou."]
+            },{
+              t:"Curry de crevettes au lait coco et riz basmati",
+              i:["90g crevettes décortiquées","40g riz basmati cuit","60ml lait coco","½ oignon","Curry doux"],
+              p:["Faire revenir l’oignon, ajouter crevettes.","Verser lait coco, curry et mijoter.","Servir sur riz basmati."]
+            }
+          ],[
+            // 11
+            {
+              t:"Fromage frais végétal, grenade & muesli croustillant",
+              i:["90g fromage frais végétal","30g muesli sans gluten","30g grains grenade"],
+              p:["Verser le fromage frais dans un bol.","Ajouter grenade et muesli."]
+            },{
+              t:"Salade pois chiches, aubergine grillée & tomates cerises",
+              i:["60g pois chiches cuits","70g aubergine grillée","6 tomates cerises","1 cc huile d’olive","Basilic frais"],
+              p:["Mélanger tous les ingrédients, assaisonner."]
+            },{
+              t:"Abricot sec & graines de courge",
+              i:["3 abricots secs","1 cs graines de courge"],
+              p:["Déguster tels quels."]
+            },{
+              t:"Poulet basilic-pistaches, julienne carotte-navet",
+              i:["90g blanc poulet","1 cs pistaches concassées","Basilic","60g carotte","60g navet","1 cs huile olive"],
+              p:["Hacher le poulet et mélanger pistache, basilic. Façonner en petits pavés.","Faire revenir, servir sur la julienne carotte-navet sautée."]
+            }
+          ],[
+            // 12
+            {
+              t:"Mug cake flocons, pruneaux & noisettes",
+              i:["30g flocons avoine sans gluten","1 œuf","2 pruneaux","10g noisettes","1 cc sirop d’agave"],
+              p:["Couper pruneaux, mélanger tous ingrédients.","Cuire 1m30 au micro-ondes dans un mug."]
+            },{
+              t:"Bol de quinoa, mangue, edamame & coriandre",
+              i:["60g quinoa cuit","40g edamame cuits","½ mangue","Coriandre fraîche","Sauce soja sans gluten"],
+              p:["Couper mangue en dés. Mélanger tout.","Assaisonner léger."]
+            },{
+              t:"Bâtonnets de concombre & tapenade verte",
+              i:["½ concombre","1 cs tapenade verte maison"],
+              p:["Couper le concombre en bâtonnets, tremper dans tapenade."]
+            },{
+              t:"Dahl de lentilles corail au lait coco & épinards",
+              i:["60g lentilles corail","80g épinards frais","60ml lait coco","1 cc curry doux","1 cc huile de coco"],
+              p:["Cuire les lentilles, incorporer lait coco, curry et épinards, mijoter. Servir chaud."]
+            }
+          ],[
+            // 13
+            {
+              t:"Bowl de figues, flocons de riz et graines de chia",
+              i:["2 figues fraîches","30g flocons de riz","1 cs graines chia","110ml lait d’amande"],
+              p:["Mélanger les flocons, graines, lait.","Ajouter figues tranchées dessus."]
+            },{
+              t:"Salade tiède haricots blancs, céleri et pommes",
+              i:["60g haricots blancs cuits","25g céleri branche","½ pomme verte","Vinaigrette légère"],
+              p:["Couper céleri et pomme en dés, mélanger avec haricots.","Assaisonner."]
+            },{
+              t:"Abricot frais & pistaches",
+              i:["1 abricot (ou pêche)","6g pistaches nature"],
+              p:["Ouvrir abricot, parsemer de pistaches."]
+            },{
+              t:"Galette sarrasin, champignons & pousses d’épinard",
+              i:["1 galette de sarrasin","90g champignons","15g pousses épinard","1 cc huile olive","Persil"],
+              p:["Sauter les champignons, étaler sur la galette avec épinards.","Plier, chauffer et servir."]
+            }
+          ],[
+            // 14
+            {
+              t:"Bircher maison pommes groseilles et amandes",
+              i:["35g flocons avoine sans gluten","70ml lait amande","½ pomme","20g groseilles","8g amandes effilées"],
+              p:["Mélanger flocons, lait, pomme râpée, groseilles.","Parsemer d’amandes."]
+            },{
+              t:"Taboulé millet, menthe, grenade & fenouil",
+              i:["55g millet cuit","¼ fenouil","30g grenade","Menthe fraîche","Jus de citron"],
+              p:["Emincer fenouil, mélanger tous les ingrédients.","Assaisonner."]
+            },{
+              t:"Carottes râpées coriandre & baies de goji",
+              i:["1 carotte","8g baies de goji","Coriandre hachée"],
+              p:["Râper la carotte, ajouter les goji et la coriandre."]
+            },{
+              t:"Saumon grillé, écrasé de patate douce, roquette",
+              i:["110g saumon","80g patate douce","30g roquette","1 cs huile olive","Aneth"],
+              p:["Cuire saumon à la poêle.","Écraser patate douce cuite.","Servir sur lit de roquette, parsemer aneth."]
+            }
+          ],[
+            // 15
+            {
+              t:"Granola cacao, banane et noisettes",
+              i:["40g granola maison cacao sans gluten","1 banane","10g noisettes concassées","110ml lait noisette"],
+              p:["Couper la banane, mélanger au granola, parsemer noisettes."]
+            },{
+              t:"Salade pois mange-tout, poulet effiloché & olives",
+              i:["70g pois mange-tout","70g blanc de poulet effiloché","4 olives vertes","Persil"],
+              p:["Cuire pois mange-tout à la vapeur.","Mélanger tous les ingrédients."]
+            },{
+              t:"Fraises fraîches, graines de chanvre",
+              i:["60g fraises","1 cs graines chanvre"],
+              p:["Couper fraises, ajouter les graines."]
+            },{
+              t:"Filet de dorade, patate ratte, chou vert sauté",
+              i:["110g filet dorade","60g patate ratte","70g chou vert","1 cs huile olive"],
+              p:["Cuire le chou émincé dans huile.","Cuire patates à la vapeur.","Cuire la dorade à la poêle, servir ensemble."]
+            }
+          ],[
+            // 16
+            {
+              t:"Compote maison pomme-poire-myrtilles",
+              i:["1 pomme","½ poire","30g myrtilles","Cannelle"],
+              p:["Éplucher et cuire tous fruits, mixer avec cannelle."]
+            },{
+              t:"Sandwich pain s.g., houmous, concombre & roquette",
+              i:["2 tranches pain sans gluten","25g houmous","¼ concombre","15g roquette"],
+              p:["Tartiner pain de houmous, ajouter les tranches de concombre et roquette, refermer."]
+            },{
+              t:"Dattes medjool & noix du Brésil",
+              i:["2 dattes medjool","6g noix du Brésil"],
+              p:["Déguster les dattes et noix ensemble."]
+            },{
+              t:"Wok tofu, brocoli & graines de sésame",
+              i:["70g tofu","60g brocoli","1 cs sauce soja s.g.","Graines de sésame","1 cc huile sésame"],
+              p:["Sauter tofu, brocoli, arroser sauce soja, parsemer sésame."]
+            }
+          ],[
+            // 17
+            {
+              t:"Porridge flocons quinoa, lait cajou, mangue",
+              i:["30g flocons quinoa","120ml lait cajou","½ mangue coupée dés"],
+              p:["Cuire flocons dans lait 4min.","Ajouter la mangue."]
+            },{
+              t:"Salade pois chiche, carotte, ail & curcuma",
+              i:["50g pois chiches cuits","40g carottes râpées","1 pincée de curcuma","1 cc huile olive","Coriandre"],
+              p:["Mélanger pois chiches, carottes, curcuma, assaisonner d’huile et coriandre."]
+            },{
+              t:"Framboises fraîches & noix de macadamia",
+              i:["40g framboises","8g noix macadamia"],
+              p:["Mélanger les deux, déguster."]
+            },{
+              t:"Dinde grillée, purée céleri pomme, carottes vapeur",
+              i:["90g émincé dinde","50g céleri rave","½ pomme verte","60g carottes","1 cs huile olive"],
+              p:["Cuire la dinde à la poêle.","Cuire céleri et pomme, mixer pour purée.","Cuire carottes vapeur, servir ensemble."]
+            }
+          ],[
+            // 18
+            {
+              t:"Chia pudding lait coco, framboises & kiwi",
+              i:["2 cs graines chia","120ml lait coco","40g framboises","½ kiwi"],
+              p:["Mélanger chia et lait coco la veille.","Ajouter framboises et kiwi coupé le matin."]
+            },{
+              t:"Blini sarrasin, salade mâche, œuf dur",
+              i:["2 blinis sarrasin maison","40g mâche","1 œuf dur"],
+              p:["Cuire un œuf dur, l’émincer.","Servir sur blinis garnis de mâche."]
+            },{
+              t:"Compote pomme-fraise maison",
+              i:["1 pomme","40g fraises","Poudre vanille"],
+              p:["Cuire et mixer, laisser refroidir."]
+            },{
+              t:"Curry de pois chiches, patate douce et épinards",
+              i:["60g pois chiches cuits","60g patate douce","50g épinards","Lait coco","Curry doux"],
+              p:["Cuire patate douce et pois chiches à l’eau.","Ajouter lait coco, curry, épinards, mijoter 10min."]
+            }
+          ],[
+            // 19
+            {
+              t:"Pain grillé avocat, tomate & graines courge",
+              i:["1 tranche pain sans gluten","¼ avocat","¼ tomate","1 cs graines courge"],
+              p:["Tartiner d’avocat, ajouter tomate, graines courge."]
+            },{
+              t:"Quinoa, petits pois, poulet et menthe",
+              i:["70g quinoa cuit","40g petits pois","60g poulet émincé","Menthe"],
+              p:["Cuire le poulet, mélanger tous les ingrédients, ajouter menthe ciselée."]
+            },{
+              t:"Melon frais & amandes",
+              i:["60g melon","9g amandes blanches"],
+              p:["Servir melon en cubes, parsemer d’amandes."]
+            },{
+              t:"Pavé de truite, légumes d’été poêlés, riz complet",
+              i:["100g truite","60g aubergine","50g tomate","60g riz complet cuit","1 cs huile olive"],
+              p:["Cuire aubergine & tomate à la poêle, ajouter truite, servir avec riz."]
+            }
+          ],[
+            // 20
+            {
+              t:"Fromage blanc végétal, mûres & granola s.g.",
+              i:["90g fromage blanc végétal","30g mûres fraîches","20g granola sans gluten"],
+              p:["Mélanger le tout, savourer !"]
+            },{
+              t:"Wrap laitue, pois cassés, carottes & cumin",
+              i:["4 grandes feuilles de laitue","40g pois cassés cuits","35g carottes râpées","Cumin moulu"],
+              p:["Garnir feuilles de laitue, rouler, servir frais."]
+            },{
+              t:"Clémentine & noix de pécan",
+              i:["1 clémentine","7g noix de pécan"],
+              p:["Éplucher, partager la clémentine, croquer avec les noix."]
+            },{
+              t:"Colin lait coco, fenouil & riz sauvage",
+              i:["100g filet colin","1/4 fenouil","60g riz sauvage cuit","70ml lait de coco"],
+              p:["Emincer fenouil et cuire à la poêle.","Ajouter colin, napper lait coco, mijoter.","Servir sur riz."]
+            }
+          ],[
+            // 21
+            {
+              t:"Bowl inspiration kiwi, petits cubes de mangue & avoine",
+              i:["35g flocons avoine sans gluten","90ml lait végétal","½ kiwi","40g mangue"],
+              p:["Mélanger flocons, lait, kiwi mangue en dés."]
+            },{
+              t:"Mini cake pois chiches, tomate séchée & basilic",
+              i:["30g pois chiches cuits en purée","1 œuf","2 tomates séchées hachées","Basilic frais"],
+              p:["Mélanger tout, cuire au four 20min à 170°C dans moule à muffin."]
+            },{
+              t:"Poire cuite aux épices & graines tournesol",
+              i:["1 poire","1 pincée cannelle et cardamome","1 cs graines de tournesol"],
+              p:["Cuire la poire au four avec les épices 18min à 180°C.","Parsemer de graines pour servir."]
+            },{
+              t:"Filet de saumon, pommes de terre nouvelles, haricots verts vapeur",
+              i:["110g filet saumon","70g pommes de terre nouvelles","60g haricots verts","1 cs huile olive","Estragon"],
+              p:["Cuire pommes de terre et haricots à la vapeur.","Cuire saumon au four 10min à 170°C.","Servir ensemble, parsemer d’estragon."]
+            }
+          ]
+        ];
+        // Génération dynamique HTML
+        window.addEventListener("DOMContentLoaded",function(){
+          let root = document.querySelector("#jourListRender");
+          let out = "";
+          for(let jour=1;jour<=21;jour++) {
+            out+=`<li id="jour${jour}" class="mb-5">
+                <div class="day-title"><i class="fa-solid fa-sun"></i> Jour ${jour}</div>
+                <div class="motiv-quote">${motivs[(jour-1)%motivs.length]}</div>
+                <div class="grid md:grid-cols-2 gap-4">`;
+            let rcpt = recettes[(jour-1)%recettes.length];
+            let mealIcons =['fa-mug-hot','fa-utensils','fa-apple-alt','fa-fish'];
+            let mealNames =['Petit-déjeuner','Déjeuner','Collation','Dîner'];
+            for(let i=0;i<4;i++){
+              let r = rcpt[i];
+              out+=`<div class="recipe-card p-4">
+                <div class="meal-title"><i class="fa-solid ${mealIcons[i]} text-teal-500"></i>${mealNames[i]}</div>
+                <div class="font-semibold text-teal-700 py-1">${r.t}</div>
+                <div class="step-label mb-1">Ingrédients :</div>
+                <ul class="ingredient-list">
+                  ${r.i.map(x=>`<li>${x}</li>`).join('')}
+                </ul>
+                <div class="step-label mb-1">Préparation :</div>
+                <ol class="prep-steps mb-0">
+                  ${r.p.map(x=>`<li>${x}</li>`).join('')}
+                </ol>
+              </div>`;
+            }
+            out+="</div></li>";
+          }
+          root.innerHTML = out;
+        });
+        </script>
+        <div id="jourListRender"></div>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Liste de courses -->
+  <section id="liste-courses" class="mb-8">
+    <h2 class="section-title"><i class="fa-solid fa-shopping-cart mr-2"></i> Liste de courses par semaine</h2>
+    <div class="week-shopping">
+      <h3 class="font-bold text-teal-700 mb-1 text-lg">Semaine 1 (Jours 1 à 7)</h3>
+      <ul class="list-disc ml-8 mb-3 text-green-900">
+        <li>Fruits rouges (surgelés et frais), bananes, pommes, poires, abricots secs</li>
+        <li>Légumes variés : épinards, carottes, patate douce, concombre, courgette, brocoli, aubergine, fenouil, tomates, poivrons, radis</li>
+        <li>Flocons avoine sans gluten, quinoa, millet, riz complet, boulgour sarrasin</li>
+        <li>Sarrasin, pois chiches, pois gourmands, lentilles</li>
+        <li>Yaourt coco/soja, lait végétal (amande, riz, noisette), fromage blanc végétal</li>
+        <li>Viandes maigres (poulet, dinde), saumon, colin, truite</li>
+        <li>Œufs, tofu ferme, steak végétal</li>
+        <li>Noix (amandes, noix du Brésil, pécan), graines (chia, courge, lin), noisettes</li>
+        <li>Herbes fraîches (persil, aneth, coriandre, menthe), épices (cannelle, curcuma)</li>
+        <li>Pain sans gluten, muesli s.g., galettes de sarrasin</li>
+        <li>Tomates séchées, olives, tapenade, vinaigrettes légères</li>
+        <li>Miel ou sirop d’agave, purées d’oléagineux</li>
+      </ul>
+    </div>
+    <div class="week-shopping">
+      <h3 class="font-bold text-teal-700 mb-1 text-lg">Semaine 2 (Jours 8 à 14)</h3>
+      <ul class="list-disc ml-8 mb-3 text-green-900">
+        <li>Pains spéciaux s.g., galettes, blinis sarrasin</li>
+        <li>Fruits frais de saison : kiwi, fraises, ananas, melon, mangue, figues, grenades</li>
+        <li>Laitue, mâche, chou vert, pois mange-tout, roquette</li>
+        <li>Haricots blancs, pois cassés, edamame</li>
+        <li>Pistaches, noix de cajou, macadamia, graines tournesol/sésame/chanvre</li>
+        <li>Lait coco, lait cajou, lait noisette</li>
+        <li>Saumon, dorade, filets cabillaud, truite</li>
+        <li>Poulet, dinde, œufs</li>
+        <li>Fromage frais végétal, tofu nature, steak végétal</li>
+        <li>Légumes variés : fenouil, betterave, navet, céleri, courge, petits pois, carotte</li>
+        <li>Purée pommes/bananes maison, compote maison</li>
+        <li>Fruits secs : dattes, abricots, baies de goji, pruneaux</li>
+      </ul>
+    </div>
+    <div class="week-shopping">
+      <h3 class="font-bold text-teal-700 mb-1 text-lg">Semaine 3 (Jours 15 à 21)</h3>
+      <ul class="list-disc ml-8 mb-3 text-green-900">
+        <li>Pain sans gluten, galettes, granola cacao</li>
+        <li>Fruits : mûres, groseilles, raisin, oranges, melons, clémentines</li>
+        <li>Légumes : chou vert, pommes de terre nouvelles, patate douce, brocoli, petits pois, carotte, potimarron</li>
+        <li>Quinoa, riz sauvage, flocons quinoa, millet, flocons riz</li>
+        <li>Crème soja/avoine/cuisson végétale</li>
+        <li>Poulet effiloché, pois-mange-tout, edamame, tofu, steak végé</li>
+        <li>Épices : curry, paprika doux, herbes fraîches</li>
+        <li>Lait coco, lait noisette, lait d’amande</li>
+        <li>Amandes, noisettes, pistaches, noix, graines variées</li>
+      </ul>
+    </div>
+    <p class="text-teal-700 text-sm mt-2">Astuce : Soyez inventif dans la transition entre les semaines et adaptez les achats en fonction de vos préférences/quantités !</p>
+  </section>
+
+  <!-- Suivi d'eau -->
+  <section id="hydratation" class="mb-8">
+    <h2 class="section-title"><i class="fa-solid fa-tint mr-2"></i> Suivi Hydratation Quotidienne</h2>
+    <div class="bg-blue-50 p-4 rounded-xl mb-2 flex flex-col md:flex-row md:items-center md:space-x-5">
+      <div class="mb-3 md:mb-0">
+        <div class="water-label flex items-center mb-1"><i class="fa-solid fa-glass-water-droplet text-blue-400 mr-1"></i> Objectif : 8 verres / 2L</div>
+        <div class="text-sm text-gray-800 mb-1">Cliquez sur un verre atteint !</div>
+        <div id="water-glasses" class="flex items-center space-x-0 mb-1"></div>
+        <div class="text-teal-800 font-semibold" id="water-counter"></div>
+        <button onclick="resetWater()" class="mt-1 text-xs bg-blue-100 rounded px-2 py-1 text-blue-700 hover:bg-blue-200 border border-blue-200"><i class="fa-solid fa-rotate-left"></i> Réinitialiser</button>
+      </div>
+      <div class="flex-1">
+        <ul class="list-disc ml-6 text-blue-900 text-sm">
+          <li>L’eau, c’est la vie : chaque verre te rapproche du bien-être !</li>
+          <li>Emporte ta gourde partout pour rester hydraté(e) facilement.</li>
+          <li>Varie : entre eau nature, infusions maison, rondelles de citron.</li>
+          <li>L’avantage : tu aides ton corps à gagner en énergie.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="text-teal-600 italic text-center mt-3">La régularité fait la différence, chaque verre compte !</div>
+  </section>
+
+  <!-- Conseils et bienfaits -->
+  <section id="infos" class="mb-8">
+    <h2 class="section-title"><i class="fa-solid fa-seedling mr-2"></i> Conseils et Bienfaits au Quotidien</h2>
+    <div class="mx-auto max-w-2xl">
+      <ul class="list-disc ml-8 mb-4 text-green-900">
+        <li>Privilégie les aliments frais, colorés, non transformés.</li>
+        <li>Évite autant que possible le gluten, les sucres raffinés et produits industriels.</li>
+        <li>Cuisine à la vapeur/douce pour préserver les vitamines et minéraux.</li>
+        <li>Mastique bien, mange lentement pour savourer chaque bouchée.</li>
+        <li>Bouge tous les jours (marche, vélo, danse, yoga…)</li>
+        <li>Écoute tes sensations de faim / satiété.</li>
+        <li>Dors suffisamment, c’est aussi essentiel pour l’équilibre !</li>
+        <li>Entoure-toi d’ondes positives, c’est aussi un atout santé 😊</li>
+      </ul>
+      <div class="border-l-4 border-teal-400 pl-4 mb-4">
+        <span class="font-bold text-teal-700">Top aliments anti-inflammatoires :</span>
+        <span class="block text-green-900 mt-1">
+        fruits rouges&nbsp;&nbsp;•&nbsp;&nbsp;poissons gras&nbsp;&nbsp;•&nbsp;&nbsp;oléagineux & graines&nbsp;&nbsp;•&nbsp;&nbsp;légumes verts&nbsp;&nbsp;•&nbsp;&nbsp;épices (curcuma, gingembre)&nbsp;&nbsp;•&nbsp;&nbsp;huiles de colza/olive&nbsp;&nbsp;•&nbsp;&nbsp;légumineuses&nbsp;&nbsp;•&nbsp;&nbsp;thé vert
+        </span>
+      </div>
+      <div class="text-gray-900 italic text-sm">“Que ton aliment soit ta première médecine.” <span class="text-teal-700">- Hippocrate</span></div>
+      <div class="py-4"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bg-teal-50 w-full py-5 px-2 border-t flex flex-col items-center mt-8 text-sm text-teal-700">
+  <div>
+    © 2024 <a href="https://ai-me.fr" class="font-bold text-teal-900 hover:underline">ai-me.fr</a> · Programme conçu par Au Pays de Marie
+  </div>
+  <div>
+    Ce plan est informatif, ne substitue pas un avis médical personnalisé.
+  </div>
+</footer>
 </body>
 </html>
