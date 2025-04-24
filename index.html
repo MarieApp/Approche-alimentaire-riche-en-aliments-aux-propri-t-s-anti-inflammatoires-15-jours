@@ -1,1616 +1,785 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Régime Anti-Inflammatoire - 15 Jours</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #2e7d32;
-            --secondary-color: #4caf50;
-            --accent-color: #81c784;
-            --light-color: #e8f5e9;
-            --dark-color: #1b5e20;
-            --text-light: #f1f8e9;
-            --text-dark: #33691e;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-            background-color: #f8f9fa;
-        }
-        
-        .bg-primary {
-            background-color: var(--primary-color);
-        }
-        
-        .bg-secondary {
-            background-color: var(--secondary-color);
-        }
-        
-        .bg-accent {
-            background-color: var(--accent-color);
-        }
-        
-        .bg-light {
-            background-color: var(--light-color);
-        }
-        
-        .text-primary {
-            color: var(--primary-color);
-        }
-        
-        .text-secondary {
-            color: var(--secondary-color);
-        }
-        
-        .text-accent {
-            color: var(--accent-color);
-        }
-        
-        .border-primary {
-            border-color: var(--primary-color);
-        }
-        
-        .border-secondary {
-            border-color: var(--secondary-color);
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--dark-color);
-        }
-        
-        .btn-secondary {
-            background-color: var(--secondary-color);
-            color: white;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-secondary:hover {
-            background-color: var(--primary-color);
-        }
-        
-        .nav-tab {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-tab.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .nav-tab:hover:not(.active) {
-            background-color: var(--light-color);
-        }
-        
-        .content-section {
-            display: none;
-        }
-        
-        .content-section.active {
-            display: block;
-        }
-        
-        .day-tab {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .day-tab.active {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        .day-tab:hover:not(.active) {
-            background-color: var(--light-color);
-            color: var(--dark-color);
-        }
-        
-        .day-content {
-            display: none;
-        }
-        
-        .day-content.active {
-            display: block;
-        }
-        
-        .meal-card {
-            border-left: 4px solid var(--secondary-color);
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-            transition: all 0.3s ease;
-        }
-        
-        .meal-card:hover {
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-        }
-        
-        .recipe-steps li {
-            margin-bottom: 0.5rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-        
-        .recipe-steps li:before {
-            content: "•";
-            color: var(--secondary-color);
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-        }
-        
-        .water-drop {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .water-drop.filled {
-            color: var(--primary-color);
-        }
-        
-        .progress-bar {
-            height: 10px;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-        }
-        
-        .progress {
-            height: 100%;
-            background-color: var(--secondary-color);
-            border-radius: 5px;
-            transition: width 0.3s ease;
-        }
-        
-        .legal-notice {
-            font-size: 0.75rem;
-            color: #666;
-        }
-        
-        @media print {
-            body {
-                width: 100%;
-                margin: 0;
-                padding: 0;
-            }
-            
-            .no-print {
-                display: none !important;
-            }
-            
-            .print-only {
-                display: block !important;
-            }
-            
-            .content-section {
-                display: block !important;
-            }
-            
-            .day-content {
-                display: block !important;
-                page-break-inside: avoid;
-            }
-        }
-        
-        .print-only {
-            display: none;
-        }
-        
-        #water-tracker-container {
-            background-color: rgba(236, 254, 234, 0.8);
-        }
-        
-        .water-container {
-            position: relative;
-            width: 200px;
-            height: 250px;
-            margin: 0 auto;
-        }
-        
-        .water-container-bg {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 0%;
-            background: linear-gradient(to bottom, #81d4fa, #4fc3f7);
-            border-radius: 0 0 15px 15px;
-            transition: height 1s ease;
-        }
-        
-        .water-glass {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            border: 3px solid #78909c;
-            border-top: none;
-            border-radius: 0 0 15px 15px;
-        }
-        
-        .water-percent {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--dark-color);
-            z-index: 10;
-        }
-        
-        .day-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-        }
-        
-        .quote-container {
-            background-color: var(--light-color);
-            border-left: 4px solid var(--primary-color);
-        }
-        
-        footer {
-            background-color: var(--primary-color);
-            color: white;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Plan Alimentaire Anti-Inflammatoire - 21 Jours de Recettes Uniques</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="21 jours de recettes anti-inflammatoires uniques et détaillées, design responsive moderne, navigation fluide, optimisé pour impression PDF continue.">
+  <!-- Tailwind CSS 2.2.19 -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Font Awesome 6.5.2 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+  <!-- Google Fonts 3.3.1 (Inter) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <style>
+    html, body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #24475a;}
+    ::selection {background:#a7f3d0;}
+    .nav-active { background-color: #6ee7b7; color: #047857;}
+    .menu-open {transform: translateX(0);}
+    @media print {
+      /* Hide menu/nav on PDF export */
+      #navbar, #mobileNav {display: none !important;}
+      /* Prevent scrollbars for pdf */
+      html,body {overflow:visible !important;}
+    }
+    /* Custom slim scrollbar for better UX */
+    ::-webkit-scrollbar { width: 8px; background: #e0f2fe;}
+    ::-webkit-scrollbar-thumb { background: #6ee7b7; border-radius: 8px;}
+  </style>
 </head>
-<body class="min-h-screen flex flex-col">
-    <header class="bg-primary text-white p-4 shadow-md">
-        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
-            <h1 class="text-2xl md:text-3xl font-bold text-center md:text-left mb-2 md:mb-0">Régime Anti-Inflammatoire - 15 Jours</h1>
-            <div class="text-sm md:text-base italic">Par Ai-Me | Au Pays de Marie</div>
-        </div>
-    </header>
+<body class="bg-gray-50 print:bg-white">
 
-    <nav class="bg-white shadow-md sticky top-0 z-50 no-print">
-        <div class="container mx-auto">
-            <div class="flex overflow-x-auto py-2 whitespace-nowrap">
-                <div class="nav-tab active px-4 py-2 rounded-t-lg font-medium" data-target="plan">Plan Alimentaire</div>
-                <div class="nav-tab px-4 py-2 rounded-t-lg font-medium" data-target="courses">Liste de Courses</div>
-                <div class="nav-tab px-4 py-2 rounded-t-lg font-medium" data-target="water">Suivi d'Eau</div>
-                <div class="nav-tab px-4 py-2 rounded-t-lg font-medium" data-target="progress">Suivi de Progression</div>
-                <div class="nav-tab px-4 py-2 rounded-t-lg font-medium" data-target="info">Infos & Conseils</div>
-                <div class="nav-tab px-4 py-2 rounded-t-lg font-medium" data-target="legal">Mentions Légales</div>
-            </div>
-        </div>
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-30 bg-white shadow-md px-4 py-2 flex items-center justify-between md:justify-start">
+    <div class="flex items-center space-x-2 font-bold text-emerald-700 text-xl">
+      <i class="fas fa-leaf"></i>
+      <span class="tracking-wide">Anti-Inflammatoire 21J</span>
+    </div>
+    <button id="mobileMenuBtn" class="md:hidden text-2xl text-emerald-500 focus:outline-none p-2" aria-label="Ouvrir le menu">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div id="desktopNav" class="hidden md:flex ml-8 space-x-4 text-sm font-semibold">
+      <button data-section="programme" class="nav-link nav-active px-3 py-1 rounded transition">Programme</button>
+      <button data-section="courses" class="nav-link px-3 py-1 rounded transition">Liste de Courses</button>
+      <button data-section="eau" class="nav-link px-3 py-1 rounded transition">Suivi Eau</button>
+      <button data-section="symptomes" class="nav-link px-3 py-1 rounded transition">Suivi Symptômes</button>
+      <button data-section="infos" class="nav-link px-3 py-1 rounded transition">Informations</button>
+      <button data-section="faq" class="nav-link px-3 py-1 rounded transition">FAQ</button>
+    </div>
+  </nav>
+  <!-- Mobile Nav -->
+  <div id="mobileNav" class="fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-50 p-6 transform -translate-x-full transition-transform duration-200" style="will-change:transform;">
+    <div class="flex items-center justify-between mb-6">
+      <span class="font-bold text-xl text-emerald-800"><i class="fas fa-leaf"></i> Menu</span>
+      <button id="closeMobileMenu" class="text-2xl text-emerald-500 focus:outline-none" aria-label="Fermer le menu">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <nav class="flex flex-col space-y-3">
+      <button data-section="programme" class="nav-link nav-active text-lg text-left px-3 py-2 rounded">Programme</button>
+      <button data-section="courses" class="nav-link text-lg text-left px-3 py-2 rounded">Liste de Courses</button>
+      <button data-section="eau" class="nav-link text-lg text-left px-3 py-2 rounded">Suivi Eau</button>
+      <button data-section="symptomes" class="nav-link text-lg text-left px-3 py-2 rounded">Suivi Symptômes</button>
+      <button data-section="infos" class="nav-link text-lg text-left px-3 py-2 rounded">Informations</button>
+      <button data-section="faq" class="nav-link text-lg text-left px-3 py-2 rounded">FAQ</button>
     </nav>
+  </div>
 
-    <main class="flex-grow container mx-auto p-4 md:p-8">
-        <!-- Plan alimentaire -->
-        <section id="plan" class="content-section active">
-            <h2 class="text-2xl font-bold text-primary mb-4">Plan Alimentaire Anti-Inflammatoire</h2>
-            
-            <div class="bg-light p-4 rounded-lg mb-6">
-                <h3 class="text-lg font-medium text-primary mb-2">Principes du Régime Anti-Inflammatoire</h3>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>Privilégier les aliments riches en oméga-3 et antioxydants</li>
-                    <li>Éviter les aliments ultra-transformés et riches en sucres raffinés</li>
-                    <li>Limiter les aliments connus pour favoriser l'inflammation (gluten, produits laitiers)</li>
-                    <li>Favoriser les aliments complets et riches en fibres</li>
-                    <li>Équilibrer les repas avec des protéines maigres, des légumes et des graisses saines</li>
-                </ul>
-            </div>
-            
-            <div class="quote-container p-4 rounded-lg mb-6 italic">
-                <span class="font-bold text-primary">"</span> La nourriture est soit une médicine lente, soit un poison lent. <span class="font-bold text-primary">"</span>
-                <div class="text-right text-sm text-primary">- Hippocrate</div>
-            </div>
-            
-            <div class="mb-6">
-                <h3 class="text-xl font-bold text-primary mb-4">Programme de 15 Jours</h3>
-                
-                <div class="day-list mb-4">
-                    <div class="day-tab active py-2 px-4 rounded" data-day="1">Jour 1</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="2">Jour 2</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="3">Jour 3</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="4">Jour 4</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="5">Jour 5</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="6">Jour 6</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="7">Jour 7</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="8">Jour 8</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="9">Jour 9</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="10">Jour 10</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="11">Jour 11</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="12">Jour 12</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="13">Jour 13</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="14">Jour 14</div>
-                    <div class="day-tab py-2 px-4 rounded" data-day="15">Jour 15</div>
-                </div>
-                
-                <!-- Jour 1 -->
-                <div class="day-content active" data-day="1">
-                    <div class="quote-container p-3 rounded-lg mb-4 text-sm italic">
-                        <span class="text-primary font-bold">Phrase du jour:</span> Chaque repas anti-inflammatoire est un pas vers plus d'énergie et moins de douleur.
-                    </div>
-                    
-                    <!-- Petit déjeuner -->
-                    <div class="meal-card p-4 rounded-lg mb-4">
-                        <h4 class="text-lg font-bold text-primary">Petit-déjeuner</h4>
-                        <h5 class="font-medium mb-2">Œufs brouillés aux épinards et champignons</h5>
-                        
-                        <div class="mb-3">
-                            <p class="font-medium text-primary">Ingrédients :</p>
-                            <ul class="list-disc pl-5">
-                                <li>2 œufs</li>
-                                <li>50g d'épinards frais</li>
-                                <li>50g de champignons de Paris</li>
-                                <li>1 c. à café d'huile d'olive</li>
-                                <li>1 pincée de curcuma</li>
-                                <li>Sel et poivre</li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <p class="font-medium text-primary">Préparation :</p>
-                            <ol class="recipe-steps">
-                                <li>Laver les épinards et les champignons. Émincer les champignons.</li>
-                                <li>Dans une poêle, chauffer l'huile d'olive à feu moyen.</li>
-                                <li>Faire revenir les champignons pendant 3-4 minutes.</li>
-                                <li>Ajouter les épinards et laisser réduire 1-2 minutes.</li>
-                                <li>Battre les œufs dans un bol avec le curcuma, sel et poivre.</li>
-                                <li>Verser les œufs dans la poêle et remuer délicatement jusqu'à ce qu'ils soient cuits mais encore crémeux (2-3 minutes).</li>
-                                <li>Servir chaud avec une tranche de pain sans gluten si désiré.</li>
-                            </ol>
-                        </div>
-                    </div>
-                    
-                    <!-- Déjeuner -->
-                    <div class="meal-card p-4 rounded-lg mb-4">
-                        <h4 class="text-lg font-bold text-primary">Déjeuner</h4>
-                        <h5 class="font-medium mb-2">Salade de quinoa aux légumes rôtis et saumon</h5>
-                        
-                        <div class="mb-3">
-                            <p class="font-medium text-primary">Ingrédients :</p>
-                            <ul class="list-disc pl-5">
-                                <li>100g de quinoa</li>
-                                <li>150g de filet de saumon</li>
-                                <li>100g de poivron rouge</li>
-                                <li>100g de courgette</li>
-                                <li>50g d'oignon rouge</li>
-                                <li>2 c. à soupe d'huile d'olive</li>
-                                <li>1 c. à soupe de jus de citron</li>
-                                <li>1 c. à café de miel</li>
-                                <li>Herbes fraîches (persil, aneth)</li>
-                                <li>Sel et poivre</li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <p class="font-medium text-primary">Préparation :</p>
-                            <ol class="recipe-steps">
-                                <li>Préchauffer le four à 180°C.</li>
-                                <li>Rincer le quinoa et le cuire dans 2 fois son volume d'eau pendant 12-15 minutes. Laisser refroidir.</li>
-                                <li>Couper les légumes en dés. Les disposer sur une plaque de cuisson, arroser d'1 c. à soupe d'huile d'olive, saler et poivrer.</li>
-                                <li>Enfourner les légumes pour 20 minutes en remuant à mi-cuisson.</li>
-                                <li>Pendant ce temps, assaisonner le saumon de sel et poivre.</li>
-                                <li>Dans une poêle, chauffer 1/2 c. à soupe d'huile d'olive et cuire le saumon 3-4 minutes de chaque côté. Réserver et effilocher.</li>
-                                <li>Préparer la vinaigrette en mélangeant le reste d'huile d'olive, le jus de citron, le miel, sel et poivre.</li>
-                                <li>Dans un saladier, mélanger le quinoa, les légumes rôtis, le saumon et les herbes hachées.</li>
-                                <li>Arroser de vinaigrette et mélanger délicatement avant de servir.</li>
-                            </ol>
-                        </div>
-                    </div>
-                    
-                    <!-- Collation -->
-                    <div class="meal-card p-4 rounded-lg mb-4">
-                        <h4 class="text-lg font-bold text-primary">Collation</h4>
-                        <h5 class="font-medium mb-2">Fruits rouges et noix</h5>
-                        
-                        <div class="mb-3">
-                            <p class="font-medium text-primary">Ingrédients :</p>
-                            <ul class="list-disc pl-5">
-                                <li>100g de fruits rouges mélangés (myrtilles, framboises, fraises)</li>
-                                <li>15g de noix (amandes, noix du Brésil)</li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <p class="font-medium text-primary">Préparation :</p>
-                            <ol class="recipe-steps">
-                                <li>Laver les fruits rouges et les mettre dans un bol.</li>
-                                <li>Ajouter les noix et déguster.</li>
-                            </ol>
-                        </div>
-                    </div>
-                    
-                    <!-- Dîner -->
-                    <div class="meal-card p-4 rounded-lg mb-4">
-                        <h4 class="text-lg font-bold text-primary">Dîner</h4>
-                        <h5 class="font-medium mb-2">Papillote de cabillaud aux herbes et patate douce rôtie</h5>
-                        
-                        <div class="mb-3">
-                            <p class="font-medium text-primary">Ingrédients :</p>
-                            <ul class="list-disc pl-5">
-                                <li>150g de filet de cabillaud</li>
-                                <li>1 patate douce moyenne</li>
-                                <li>1 gousse d'ail</li>
-                                <li>1 branche de romarin</li>
-                                <li>1/2 citron</li>
-                                <li>1 c. à soupe d'huile d'olive</li>
-                                <li>100g de brocoli</li>
-                                <li>Sel et poivre</li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <p class="font-medium text-primary">Préparation :</p>
-                            <ol class="recipe-steps">
-                                <li>Préchauffer le four à 200°C.</li>
-                                <li>Peler et couper la patate douce en cubes. Disposer sur une plaque de cuisson.</li>
-                                <li>Arroser les cubes de patate douce avec la moitié de l'huile d'olive, saler, poivrer et ajouter le romarin émietté.</li>
-                                <li>Enfourner pour 25 minutes en remuant à mi-cuisson.</li>
-                                <li>Préparer un papier cuisson ou aluminium pour la papillote.</li>
-                                <li>Disposer le filet de cabillaud au centre, assaisonner de sel et poivre.</li>
-                                <li>Émincer l'ail et le répartir sur le poisson, ajouter quelques rondelles de citron.</li>
-                                <li>Arroser avec le reste d'huile d'olive, fermer la papillote.</li>
-                                <li>Ajouter la papillote au four 10-12 minutes avant la fin de la cuisson des patates douces.</li>
-                                <li>Pendant ce temps, cuire le brocoli à la vapeur pendant 5-7 minutes.</li>
-                                <li>Servir le cabillaud avec la patate douce et le brocoli, arrosé du jus de la papillote.</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Jour 2 -->
-                <div class="day-content" data-day="2">
-                    <div class="quote-container p-3 rounded-lg mb-4 text-sm italic">
-                        <span class="text-primary font-bold">Phrase du jour:</span> Nourrissez votre corps avec des aliments qui combattent l'inflammation et vous ressentirez la différence chaque jour.
-                    </div>
-                    
-                    <!-- Petit déjeuner -->
-                    <div class="meal-card p-4 rounded-lg mb-4">
-                        <h4 class="text-lg font-bold text-primary">Petit-déjeuner</h4>
-                        <h5 class="font-medium mb-2">Bowl de chia, fruits et amandes</h5>
-                        
-                        <div class="mb-3">
-                            <p class="font-medium text-primary">Ingrédients :</p>
-                            <ul class="list-disc pl-5">
-                                <li>3 c. à soupe de graines de chia</li>
-                                <li>200ml de lait d'amande sans sucre</li>
-                                <li>1/2 c. à café d'extrait de vanille</li>
-                                <li>1 c. à café de miel</li>
-                                <li>100g de fruits rouges</li>
-                                <li>10g d'amandes effilées</li>
-                                <li>1/2 c. à café de cannelle</li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <p class="font-medium text-primary">Préparation :</p>
-                            <ol class="recipe-steps">
-                                <li>La veille au soir, mélanger les graines de chia, le lait d'amande, l'extrait de vanille et le miel dans un bol.</li>
-                                <li>Bien remuer pour éviter les grumeaux. Couvrir et réfrigérer toute la nuit.</li>
-                                <li>Le matin, remuer à nouveau le mélange.</li>
-                                <li>Laver et préparer les fruits rouges.</li>
-                                <li>Disposer le pudding de chia dans un bol, garnir de fruits rouges.</li>
-                                <li>Saupoudrer d'amandes effilées et de cannelle avant de servir.</li>
-                            </ol>
-                        </div>
-                    </div>
-                    
-                    <!-- Déjeuner -->
-                    <div class="meal-card p-4 rounded-lg mb-4">
-                        <h4 class="text-lg font-bold text-primary">Déjeuner</h4>
-                        <h5 class="font-medium mb-2">Poulet grillé aux herbes et légumes rôtis</h5>
-                        
-                        <div class="mb-3">
-                            <p class="font-medium text-primary">Ingrédients :</p>
-                            <ul class="list-disc pl-5">
-                                <li>150g de blanc de poulet</li>
-                                <li>1 c. à soupe d'huile d'olive</li>
-                                <li>1 c. à café de romarin frais haché</li>
-                                <li>1 c. à café de thym frais</li>
-                                <li>1 gousse d'ail émincée</li>
-                                <li>100g de carottes</li>
-                                <li>100g de courgettes</li>
-                                <li>100g de patate douce</li>
-                                <li>1 c. à soupe d'huile d'olive pour les légumes</li>
-                                <li>Sel et poivre</li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <p class="font-medium text-primary">Préparation :</p>
-                            <ol class="recipe-steps">
-                                <li>Préchauffer le four à 190°C.</li>
-                                <li>Dans un bol, mélanger 1 c. à soupe d'huile d'olive, romarin, thym, ail, sel et poivre.</li>
-                                <li>Badigeonner le poulet avec ce mélange et laisser mariner 15-20 minutes.</li>
-                                <li>Peler et couper les légumes en morceaux de taille uniforme.</li>
-                                <li>Disposer les légumes sur une plaque de cuisson, arroser avec 1 c. à soupe d'huile d'olive, saler et poivrer.</li>
-                                <li>Enfourner les légumes et cuire 20-25 minutes en remuant à mi-cuisson.</li>
-                                <li>Pendant ce temps, chauffer une poêle-grill à feu moyen-vif.</li>
-                                <li>Cuire le poulet 6-7 minutes de chaque côté jusqu'à ce qu'il soit bien cuit (température interne de 75°C).</li>
-                                <li>Laisser reposer le poulet 5 minutes avant de le trancher.</li>
-                                <li>Servir avec les légumes rôtis.</li>
-                            </ol>
-                        </div>
-                    </div>
-                    
-                    <!-- Collation -->
-                    <div class="meal-card p-4 rounded-lg mb-4">
-                        <h4 class="text-lg font-bold text-primary">Collation</h4>
-                        <h5 class="font-medium mb-2">Guacamole et crudités</h5>
-                        
-                        <div class="mb-3">
-                            <p class="font-medium text-primary">Ingrédients :</p>
-                            <ul class="list-disc pl-5">
-                                <li>1/2 avocat mûr</li>
-                                <li>1/4 d'oignon rouge finement haché</li>
-                                <li>1/2 tomate épépinée et coupée en dés</li>
-                                <li>1/2 c. à soupe de jus de citron vert</li>
-                                <li>Quelques feuilles de coriandre (facultatif)</li>
-                                <li>Sel et poivre</li>
-                                <li>Bâtonnets de légumes (concombre, carotte, céleri)</li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <p class="font-medium text-primary">Préparation :</p>
-                            <ol class="recipe-steps">
-                                <li>Écraser l'avocat à la fourchette dans un bol.</li>
-                                <li>Ajouter l'oignon rouge, la tomate et le jus de citron vert.</li>
-                                <li>Hacher finement la coriandre et l'incorporer si désiré.</li>
-                                <li>Assaisonner avec sel et poivre, bien mélanger.</li>
-                                <li>Laver et couper les légumes en bâtonnets.</li>
-                                <li>Servir le guacamole avec les bâtonnets de légumes.</li>
-                            </ol>
-                        </div>
-                    </div>
-                    
-                    <!-- Dîner -->
-                    <div class="meal-card p-4 rounded-lg mb-4">
-                        <h4 class="text-lg font-bold text-primary">Dîner</h4>
-                        <h5 class="font-medium mb-2">Risotto de riz complet aux champignons et asperges</h5>
-                        
-                        <div class="mb-3">
-                            <p class="font-medium text-primary">Ingrédients :</p>
-                            <ul class="list-disc pl-5">
-                                <li>100g de riz complet</li>
-                                <li>1 petit oignon</li>
-                                <li>150g de champignons de Paris</li>
-                                <li>100g d'asperges vertes</li>
-                                <li>1 gousse d'ail</li>
-                                <li>500ml de bouillon de légumes sans gluten</li>
-                                <li>2 c. à soupe d'huile d'olive</li>
-                                <li>2 c. à soupe de levure nutritionnelle (optionnel)</li>
-                                <li>1 c. à soupe de jus de citron</li>
-                                <li>Persil frais haché</li>
-                                <li>Sel et poivre</li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <p class="font-medium text-primary">Préparation :</p>
-                            <ol class="recipe-steps">
-                                <li>Rincer le riz complet. Porter à ébullition 300ml du bouillon et y faire cuire le riz pendant 25-30 minutes jusqu'à ce qu'il soit presque tendre. Égoutter et réserver.</li>
-                                <li>Pendant ce temps, préparer les légumes: émincer l'oignon et l'ail, couper les champignons en tranches, et retirer les parties dures des asperges avant de les couper en tronçons de 3-4cm.</li>
-                                <li>Dans une poêle ou une casserole à fond épais, chauffer 1 c. à soupe d'huile d'olive à feu moyen.</li>
-                                <li>Faire revenir l'oignon jusqu'à ce qu'il soit translucide (environ 3-4 minutes).</li>
-                                <li>Ajouter l'ail et faire revenir 30 secondes.</li>
-                                <li>Ajouter les champignons et cuire 5 minutes jusqu'à ce qu'ils réduisent et libèrent leur eau.</li>
-                                <li>Incorporer les asperges et cuire 3 minutes.</li>
-                                <li>Ajouter le riz précuit, remuer et ajouter le reste du bouillon chaud.</li>
-                                <li>Laisser mijoter à feu doux pendant 5-8 minutes jusqu'à ce que le liquide soit absorbé et le riz crémeux.</li>
-                                <li>Retirer du feu, ajouter la levure nutritionnelle, le jus de citron, le reste d'huile d'olive, sel et poivre.</li>
-                                <li>Garnir de persil frais haché et servir chaud.</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Jours 3-15 avec structure similaire -->
-                <!-- Pour simplifier, j'inclus seulement les jours 1 et 2 en détail, mais un code complet inclurait les 15 jours -->
-                <div class="day-content" data-day="3">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 3</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <!-- Jours 4-15 -->
-                <div class="day-content" data-day="4">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 4</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <div class="day-content" data-day="5">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 5</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <div class="day-content" data-day="6">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 6</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <div class="day-content" data-day="7">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 7</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <div class="day-content" data-day="8">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 8</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <div class="day-content" data-day="9">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 9</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <div class="day-content" data-day="10">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 10</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <div class="day-content" data-day="11">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 11</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <div class="day-content" data-day="12">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 12</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <div class="day-content" data-day="13">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 13</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <div class="day-content" data-day="14">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 14</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-                
-                <div class="day-content" data-day="15">
-                    <div class="p-4 bg-light rounded-lg text-center">
-                        <p>Contenu détaillé pour le Jour 15</p>
-                        <p class="text-sm">(Structure similaire aux jours précédents avec 4 repas détaillés)</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Liste de courses -->
-        <section id="courses" class="content-section">
-            <h2 class="text-2xl font-bold text-primary mb-4">Liste de Courses</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-bold text-primary mb-3">Semaine 1 (Jours 1-7)</h3>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium text-secondary mb-2">Fruits et Légumes</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Épinards frais (200g)</li>
-                            <li>Champignons de Paris (500g)</li>
-                            <li>Poivrons rouges (3)</li>
-                            <li>Courgettes (4)</li>
-                            <li>Oignons rouges (2)</li>
-                            <li>Patates douces (4 moyennes)</li>
-                            <li>Brocoli (2 têtes)</li>
-                            <li>Carottes (1 botte)</li>
-                            <li>Concombre (2)</li>
-                            <li>Tomates (4)</li>
-                            <li>Asperges vertes (1 botte)</li>
-                            <li>Céleri (1)</li>
-                            <li>Avocat (3)</li>
-                            <li>Citrons (2)</li>
-                            <li>Citron vert (2)</li>
-                            <li>Fruits rouges mélangés (500g)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium text-secondary mb-2">Protéines</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Œufs (12)</li>
-                            <li>Filet de saumon (300g)</li>
-                            <li>Filet de cabillaud (300g)</li>
-                            <li>Blanc de poulet (450g)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium text-secondary mb-2">Féculents sans gluten</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Quinoa (250g)</li>
-                            <li>Riz complet (250g)</li>
-                            <li>Pain sans gluten (1 paquet)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium text-secondary mb-2">Produits laitiers et alternatives</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Lait d'amande sans sucre (1L)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium text-secondary mb-2">Condiments et épices</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Huile d'olive extra vierge (1 bouteille)</li>
-                            <li>Miel (1 pot)</li>
-                            <li>Curcuma moulu</li>
-                            <li>Cannelle</li>
-                            <li>Romarin frais</li>
-                            <li>Thym frais</li>
-                            <li>Persil frais</li>
-                            <li>Coriandre fraîche (facultatif)</li>
-                            <li>Ail (1 tête)</li>
-                            <li>Bouillon de légumes sans gluten (1 boîte)</li>
-                            <li>Levure nutritionnelle (facultatif)</li>
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-secondary mb-2">Oléagineux et graines</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Noix mélangées (amandes, noix du Brésil) (200g)</li>
-                            <li>Amandes effilées (100g)</li>
-                            <li>Graines de chia (100g)</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-bold text-primary mb-3">Semaine 2 (Jours 8-15)</h3>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium text-secondary mb-2">Fruits et Légumes</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Épinards frais (200g)</li>
-                            <li>Champignons de Paris (300g)</li>
-                            <li>Poivrons multicolores (4)</li>
-                            <li>Courgettes (3)</li>
-                            <li>Oignons rouges (2)</li>
-                            <li>Patates douces (3 moyennes)</li>
-                            <li>Brocoli (2 têtes)</li>
-                            <li>Carottes (1 botte)</li>
-                            <li>Concombre (2)</li>
-                            <li>Tomates cerises (2 barquettes)</li>
-                            <li>Courge butternut (1)</li>
-                            <li>Céleri (1)</li>
-                            <li>Avocats (3)</li>
-                            <li>Citrons (2)</li>
-                            <li>Citron vert (2)</li>
-                            <li>Fruits rouges mélangés (500g)</li>
-                            <li>Ananas frais (1/2)</li>
-                            <li>Chou rouge (1/2)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium text-secondary mb-2">Protéines</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Œufs (12)</li>
-                            <li>Filet de truite (300g)</li>
-                            <li>Filet de bar (300g)</li>
-                            <li>Blanc de poulet (450g)</li>
-                            <li>Tofu ferme (1 bloc)</li>
-                            <li>Lentilles vertes (250g)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium text-secondary mb-2">Féculents sans gluten</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Quinoa (250g)</li>
-                            <li>Sarrasin (250g)</li>
-                            <li>Riz sauvage (250g)</li>
-                            <li>Pain sans gluten (1 paquet)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium text-secondary mb-2">Produits laitiers et alternatives</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Lait de coco (400ml)</li>
-                            <li>Lait d'amande sans sucre (1L)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <h4 class="font-medium text-secondary mb-2">Condiments et épices</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Huile d'olive extra vierge</li>
-                            <li>Vinaigre de cidre</li>
-                            <li>Moutarde à l'ancienne (sans gluten)</li>
-                            <li>Gingembre frais</li>
-                            <li>Curcuma moulu</li>
-                            <li>Paprika</li>
-                            <li>Basilic frais</li>
-                            <li>Ciboulette fraîche</li>
-                            <li>Ail (1 tête)</li>
-                            <li>Bouillon de légumes sans gluten (1 boîte)</li>
-                            <li>Pâte de curry rouge (sans gluten)</li>
-                        </ul>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-secondary mb-2">Oléagineux et graines</h4>
-                        <ul class="list-disc pl-5 space-y-1">
-                            <li>Noix de cajou non salées (150g)</li>
-                            <li>Graines de tournesol (100g)</li>
-                            <li>Graines de lin moulues (100g)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-6 bg-light p-4 rounded-lg">
-                <h3 class="text-lg font-bold text-primary mb-3">Conseils pour les courses</h3>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>Privilégiez les produits frais, biologiques si possible</li>
-                    <li>Vérifiez toujours les étiquettes pour vous assurer que les produits sont sans gluten</li>
-                    <li>Les produits transformés peuvent contenir du gluten caché (bouillons, sauces, etc.)</li>
-                    <li>Pensez à congeler une partie des fruits rouges si vous les achetez frais</li>
-                    <li>Les légumes surgelés nature sont une bonne alternative aux légumes frais</li>
-                    <li>Pensez à acheter des contenants hermétiques pour conserver les restes</li>
-                </ul>
-            </div>
-        </section>
-        
-        <!-- Suivi d'Eau -->
-        <section id="water" class="content-section">
-            <h2 class="text-2xl font-bold text-primary mb-4">Suivi de Consommation d'Eau</h2>
-            
-            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
-                <div class="text-center mb-4">
-                    <h3 class="text-xl font-bold text-primary">Objectif journalier: 2 litres (8 verres)</h3>
-                    <p class="text-sm text-gray-600 mt-2">Une bonne hydratation est essentielle pour réduire l'inflammation</p>
-                </div>
-                
-                <div class="mb-6">
-                    <div class="water-container mb-4">
-                        <div class="water-container-bg" id="water-fill"></div>
-                        <div class="water-glass"></div>
-                        <div class="water-percent" id="water-percent">0%</div>
-                    </div>
-                    
-                    <div class="text-center mb-4">
-                        <span class="text-lg font-bold text-primary" id="water-count">0</span> / 8 verres
-                    </div>
-                    
-                    <div class="flex justify-center space-x-4 mb-4">
-                        <button id="add-water" class="btn-primary px-4 py-2 rounded-lg">Ajouter un verre</button>
-                        <button id="reset-water" class="btn-secondary px-4 py-2 rounded-lg">Réinitialiser</button>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-4 md:grid-cols-8 gap-3 text-center">
-                    <div class="water-drop text-3xl text-gray-300" data-index="1"><i class="fas fa-tint"></i></div>
-                    <div class="water-drop text-3xl text-gray-300" data-index="2"><i class="fas fa-tint"></i></div>
-                    <div class="water-drop text-3xl text-gray-300" data-index="3"><i class="fas fa-tint"></i></div>
-                    <div class="water-drop text-3xl text-gray-300" data-index="4"><i class="fas fa-tint"></i></div>
-                    <div class="water-drop text-3xl text-gray-300" data-index="5"><i class="fas fa-tint"></i></div>
-                    <div class="water-drop text-3xl text-gray-300" data-index="6"><i class="fas fa-tint"></i></div>
-                    <div class="water-drop text-3xl text-gray-300" data-index="7"><i class="fas fa-tint"></i></div>
-                    <div class="water-drop text-3xl text-gray-300" data-index="8"><i class="fas fa-tint"></i></div>
-                </div>
-            </div>
-            
-            <div class="bg-light p-4 rounded-lg mb-6">
-                <h3 class="text-lg font-bold text-primary mb-3">Historique hebdomadaire</h3>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2 text-left">Jour</th>
-                                <th class="px-4 py-2 text-left">Verres d'eau</th>
-                                <th class="px-4 py-2 text-left">Objectif atteint</th>
-                            </tr>
-                        </thead>
-                        <tbody id="water-history">
-                            <!-- Sera rempli dynamiquement via JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <div class="bg-white p-4 rounded-lg shadow-md">
-                <h3 class="text-lg font-bold text-primary mb-3">Bienfaits d'une bonne hydratation</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-light p-3 rounded-lg">
-                        <h4 class="font-medium text-secondary mb-2">Effets anti-inflammatoires</h4>
-                        <ul class="list-disc pl-5 space-y-1 text-sm">
-                            <li>Aide à éliminer les toxines et déchets pro-inflammatoires</li>
-                            <li>Favorise le bon fonctionnement des reins et du foie</li>
-                            <li>Réduit la concentration en histamine dans le corps</li>
-                            <li>Améliore la circulation sanguine et lymphatique</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-light p-3 rounded-lg">
-                        <h4 class="font-medium text-secondary mb-2">Bénéfices pour la digestion</h4>
-                        <ul class="list-disc pl-5 space-y-1 text-sm">
-                            <li>Facilite la digestion des aliments</li>
-                            <li>Prévient la constipation, source d'inflammation intestinale</li>
-                            <li>Maintient l'intégrité de la barrière intestinale</li>
-                            <li>Soutient le microbiome intestinal</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-light p-3 rounded-lg">
-                        <h4 class="font-medium text-secondary mb-2">Effets sur les articulations</h4>
-                        <ul class="list-disc pl-5 space-y-1 text-sm">
-                            <li>Maintient la lubrification des articulations</li>
-                            <li>Réduit les frictions et l'inflammation articulaire</li>
-                            <li>Facilite le transport des nutriments vers le cartilage</li>
-                            <li>Améliore la récupération après l'exercice</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-light p-3 rounded-lg">
-                        <h4 class="font-medium text-secondary mb-2">Conseils pour bien s'hydrater</h4>
-                        <ul class="list-disc pl-5 space-y-1 text-sm">
-                            <li>Boire un grand verre d'eau dès le réveil</li>
-                            <li>Garder une bouteille d'eau à portée de main toute la journée</li>
-                            <li>Boire avant, pendant et après l'exercice</li>
-                            <li>Consommer des tisanes d'herbes anti-inflammatoires (gingembre, curcuma)</li>
-                            <li>Éviter les boissons sucrées et l'alcool qui favorisent l'inflammation</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Suivi de progression -->
-        <section id="progress" class="content-section">
-            <h2 class="text-2xl font-bold text-primary mb-4">Suivi de Progression</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-bold text-primary mb-3">Journal des symptômes</h3>
-                    
-                    <div class="mb-4">
-                        <label for="symptom-date" class="block text-sm font-medium mb-1">Date :</label>
-                        <input type="date" id="symptom-date" class="w-full p-2 border rounded-lg">
-                    </div>
-                    
-                    <div class="mb-4">
-                        <p class="block text-sm font-medium mb-1">Niveau d'inflammation ressenti :</p>
-                        <div class="flex items-center space-x-1">
-                            <span class="text-sm">Faible</span>
-                            <input type="range" min="1" max="10" value="5" class="flex-grow mx-2" id="inflammation-level">
-                            <span class="text-sm">Élevé</span>
-                        </div>
-                        <div class="text-center mt-1">
-                            <span id="inflammation-value">5</span>/10
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <p class="block text-sm font-medium mb-1">Symptômes observés :</p>
-                        <div class="grid grid-cols-2 gap-2 mb-2">
-                            <div>
-                                <input type="checkbox" id="symptom-1" class="symptom-checkbox">
-                                <label for="symptom-1" class="ml-1 text-sm">Douleurs articulaires</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="symptom-2" class="symptom-checkbox">
-                                <label for="symptom-2" class="ml-1 text-sm">Fatigue</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="symptom-3" class="symptom-checkbox">
-                                <label for="symptom-3" class="ml-1 text-sm">Digestion difficile</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="symptom-4" class="symptom-checkbox">
-                                <label for="symptom-4" class="ml-1 text-sm">Maux de tête</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="symptom-5" class="symptom-checkbox">
-                                <label for="symptom-5" class="ml-1 text-sm">Problèmes de peau</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="symptom-6" class="symptom-checkbox">
-                                <label for="symptom-6" class="ml-1 text-sm">Troubles du sommeil</label>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label for="symptom-notes" class="block text-sm font-medium mb-1">Notes supplémentaires :</label>
-                        <textarea id="symptom-notes" rows="4" class="w-full p-2 border rounded-lg"></textarea>
-                    </div>
-                    
-                    <button id="save-symptoms" class="btn-primary px-4 py-2 rounded-lg w-full">Enregistrer</button>
-                </div>
-                
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-bold text-primary mb-3">Historique et Évolution</h3>
-                    
-                    <div class="mb-4">
-                        <p class="font-medium text-secondary mb-2">Progression des symptômes</p>
-                        <div class="h-40 bg-light p-3 rounded-lg flex items-end justify-around">
-                            <div id="progress-chart" class="w-full h-32 flex items-end justify-around">
-                                <!-- Graphique généré via JavaScript -->
-                            </div>
-                        </div>
-                        <div class="flex justify-between text-xs mt-1">
-                            <span>Jour 1</span>
-                            <span>Jour 5</span>
-                            <span>Jour 10</span>
-                            <span>Jour 15</span>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <p class="font-medium text-secondary mb-2">Entrées précédentes</p>
-                        <div id="symptom-history" class="bg-light p-3 rounded-lg max-h-64 overflow-y-auto">
-                            <p class="text-center text-sm text-gray-500 italic">Aucune entrée pour le moment</p>
-                            <!-- Entrées précédentes ajoutées dynamiquement -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mt-6 bg-light p-4 rounded-lg">
-                <h3 class="text-lg font-bold text-primary mb-3">Conseils pour le suivi</h3>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>Notez vos symptômes quotidiennement pour mieux identifier les tendances</li>
-                    <li>Soyez attentif aux réactions après certains repas spécifiques</li>
-                    <li>N'hésitez pas à adapter le programme selon vos observations personnelles</li>
-                    <li>Les effets d'un régime anti-inflammatoire peuvent mettre plusieurs jours à se manifester</li>
-                    <li>Si certains symptômes s'aggravent, consultez un professionnel de santé</li>
-                </ul>
-            </div>
-        </section>
-        
-        <!-- Infos et conseils -->
-        <section id="info" class="content-section">
-            <h2 class="text-2xl font-bold text-primary mb-4">Informations et Conseils</h2>
-            
-            <div class="quote-container p-4 rounded-lg mb-6 italic">
-                <span class="font-bold text-primary">"</span> Que ton aliment soit ta seule médecine. <span class="font-bold text-primary">"</span>
-                <div class="text-right text-sm text-primary">- Hippocrate</div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-bold text-primary mb-3">Comprendre l'inflammation</h3>
-                    
-                    <p class="mb-3">L'inflammation est une réponse naturelle du corps pour se protéger contre les agents pathogènes et favoriser la guérison. Cependant, une inflammation chronique peut contribuer à de nombreux problèmes de santé, notamment :</p>
-                    
-                    <ul class="list-disc pl-5 space-y-1 mb-3">
-                        <li>Douleurs articulaires et musculaires</li>
-                        <li>Maladies auto-immunes</li>
-                        <li>Problèmes digestifs</li>
-                        <li>Fatigue chronique</li>
-                        <li>Problèmes de peau (eczéma, psoriasis)</li>
-                        <li>Maladies cardiovasculaires</li>
-                    </ul>
-                    
-                    <p>L'alimentation joue un rôle crucial dans la régulation de l'inflammation. Certains aliments peuvent l'aggraver, tandis que d'autres ont des propriétés anti-inflammatoires qui aident à la réduire.</p>
-                </div>
-                
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-bold text-primary mb-3">Aliments anti-inflammatoires</h3>
-                    
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <h4 class="font-medium text-secondary mb-1">À privilégier</h4>
-                            <ul class="list-disc pl-5 space-y-1 text-sm">
-                                <li>Fruits rouges (riches en antioxydants)</li>
-                                <li>Légumes verts à feuilles</li>
-                                <li>Poissons gras (riches en oméga-3)</li>
-                                <li>Épices (curcuma, gingembre)</li>
-                                <li>Huile d'olive extra vierge</li>
-                                <li>Noix et graines</li>
-                                <li>Ail et oignon</li>
-                                <li>Thé vert</li>
-                                <li>Chocolat noir (>70% cacao)</li>
-                            </ul>
-                        </div>
-                        
-                        <div>
-                            <h4 class="font-medium text-secondary mb-1">À éviter</h4>
-                            <ul class="list-disc pl-5 space-y-1 text-sm">
-                                <li>Gluten (déjà exclu du programme)</li>
-                                <li>Sucres raffinés</li>
-                                <li>Graisses trans et saturées</li>
-                                <li>Viandes rouges en excès</li>
-                                <li>Produits laitiers</li>
-                                <li>Aliments ultra-transformés</li>
-                                <li>Alcool</li>
-                                <li>Excès de sel</li>
-                                <li>Édulcorants artificiels</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-bold text-primary mb-3">Mode de vie anti-inflammatoire</h3>
-                    
-                    <p class="mb-3">L'alimentation n'est qu'un aspect d'un mode de vie anti-inflammatoire. D'autres facteurs à considérer :</p>
-                    
-                    <ul class="list-disc pl-5 space-y-1">
-                        <li><span class="font-medium">Activité physique régulière</span> - 30 minutes par jour d'exercice modéré</li>
-                        <li><span class="font-medium">Gestion du stress</span> - Méditation, yoga, respiration profonde</li>
-                        <li><span class="font-medium">Sommeil de qualité</span> - 7-8 heures par nuit</li>
-                        <li><span class="font-medium">Hydratation</span> - 2 litres d'eau par jour minimum</li>
-                        <li><span class="font-medium">Exposition à la nature</span> - Passer du temps en extérieur</li>
-                    </ul>
-                </div>
-                
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-bold text-primary mb-3">Conseils de cuisson</h3>
-                    
-                    <p class="mb-3">Les méthodes de cuisson peuvent influencer l'inflammation :</p>
-                    
-                    <ul class="list-disc pl-5 space-y-1">
-                        <li><span class="font-medium">Privilégier</span> : cuisson à la vapeur, à l'étouffée, en papillote</li>
-                        <li><span class="font-medium">Modérer</span> : cuisson au four, à la poêle avec peu d'huile</li>
-                        <li><span class="font-medium">Éviter</span> : friture, barbecue, cuisson à très haute température</li>
-                        <li>Utiliser des huiles stables à la chaleur (olive pour cuisson douce, colza)</li>
-                        <li>Ajouter les épices anti-inflammatoires pendant la cuisson</li>
-                        <li>Consommer une partie des légumes crus pour préserver les enzymes</li>
-                    </ul>
-                </div>
-                
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-lg font-bold text-primary mb-3">Citations motivantes</h3>
-                    
-                    <div class="space-y-3">
-                        <div class="bg-light p-2 rounded-lg">
-                            <p class="text-sm italic">"Ton corps est le temple de ton âme. Garde-le pur et propre pour que l'âme puisse y résider."</p>
-                            <p class="text-right text-xs text-primary">- B.K.S. Iyengar</p>
-                        </div>
-                        
-                        <div class="bg-light p-2 rounded-lg">
-                            <p class="text-sm italic">"La santé n'est pas tout, mais sans la santé, tout est rien."</p>
-                            <p class="text-right text-xs text-primary">- Arthur Schopenhauer</p>
-                        </div>
-                        
-                        <div class="bg-light p-2 rounded-lg">
-                            <p class="text-sm italic">"Une alimentation saine est une forme d'amour-propre."</p>
-                            <p class="text-right text-xs text-primary">- Anonyme</p>
-                        </div>
-                        
-                        <div class="bg-light p-2 rounded-lg">
-                            <p class="text-sm italic">"Prendre soin de votre corps est une obligation. Sinon, où allez-vous vivre ?"</p>
-                            <p class="text-right text-xs text-primary">- Jim Rohn</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-light p-4 rounded-lg">
-                <h3 class="text-lg font-bold text-primary mb-3">Questions fréquentes</h3>
-                
-                <div class="space-y-4">
-                    <div>
-                        <h4 class="font-medium text-secondary">Combien de temps faut-il pour ressentir les effets d'un régime anti-inflammatoire ?</h4>
-                        <p class="text-sm mt-1">Les effets varient selon les individus. Certaines personnes peuvent observer des améliorations en quelques jours, tandis que d'autres auront besoin de plusieurs semaines. Généralement, des changements notables apparaissent après 2-3 semaines d'alimentation anti-inflammatoire constante.</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-secondary">Puis-je adapter le programme selon mes préférences ?</h4>
-                        <p class="text-sm mt-1">Absolument. Vous pouvez remplacer certains ingrédients par d'autres ayant des propriétés anti-inflammatoires similaires. L'important est de maintenir l'équilibre global et d'éviter les aliments pro-inflammatoires.</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-secondary">Ce régime est-il adapté aux sportifs ?</h4>
-                        <p class="text-sm mt-1">Oui, mais les sportifs ayant des besoins énergétiques plus élevés peuvent avoir besoin d'augmenter les portions ou d'ajouter des collations supplémentaires. Les protéines et les glucides complexes sont particulièrement importants pour la récupération musculaire.</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-secondary">Que faire si je ressens une faim excessive ?</h4>
-                        <p class="text-sm mt-1">Assurez-vous d'abord que vos portions sont suffisantes. Vous pouvez ajouter des collations saines entre les repas, comme des fruits, des légumes ou des noix. Boire plus d'eau peut également aider à réduire la sensation de faim.</p>
-                    </div>
-                    
-                    <div>
-                        <h4 class="font-medium text-secondary">Dois-je consulter un médecin avant de commencer ce régime ?</h4>
-                        <p class="text-sm mt-1">C'est recommandé, particulièrement si vous souffrez de conditions médicales préexistantes ou prenez des médicaments. Ce régime est généralement sain et équilibré, mais chaque personne a des besoins spécifiques.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Mentions légales -->
-        <section id="legal" class="content-section">
-            <h2 class="text-2xl font-bold text-primary mb-4">Mentions Légales</h2>
-            
-            <div class="bg-white p-4 rounded-lg shadow-md mb-6">
-                <h3 class="text-lg font-bold text-primary mb-3">Clause de non-responsabilité médicale</h3>
-                
-                <p class="mb-3 text-sm">Cette application et son contenu sont fournis à titre informatif uniquement et ne constituent en aucun cas un avis médical, un diagnostic ou un traitement. Les informations présentées ne remplacent pas la consultation d'un professionnel de santé qualifié.</p>
-                
-                <p class="mb-3 text-sm">Avant de commencer ce régime ou tout autre programme alimentaire, consultez votre médecin ou un nutritionniste, particulièrement si vous souffrez de conditions médicales préexistantes, prenez des médicaments, êtes enceinte ou allaitez.</p>
-                
-                <p class="text-sm">Ai-Me | Au Pays de Marie ne pourra être tenu responsable de tout problème de santé, réaction allergique ou autre conséquence résultant de l'utilisation de cette application ou du suivi de ce programme alimentaire.</p>
-            </div>
-            
-            <div class="bg-white p-4 rounded-lg shadow-md mb-6">
-                <h3 class="text-lg font-bold text-primary mb-3">Avertissement sur les allergies et intolérances</h3>
-                
-                <p class="mb-3 text-sm">Bien que ce programme soit conçu sans gluten, il est de la responsabilité de l'utilisateur de vérifier que les produits choisis correspondent à ses besoins spécifiques et restrictions alimentaires.</p>
-                
-                <p class="mb-3 text-sm">Les personnes souffrant d'allergies alimentaires doivent porter une attention particulière aux ingrédients et peuvent avoir besoin d'adapter les recettes en conséquence.</p>
-                
-                <p class="text-sm">En cas de réaction allergique ou de symptômes inhabituels après avoir consommé un aliment, consultez immédiatement un professionnel de santé.</p>
-            </div>
-            
-            <div class="bg-white p-4 rounded-lg shadow-md mb-6">
-                <h3 class="text-lg font-bold text-primary mb-3">Limitation de responsabilité</h3>
-                
-                <p class="mb-3 text-sm">Cette application est fournie "en l'état", sans garantie d'aucune sorte, explicite ou implicite, y compris mais sans s'y limiter, les garanties de performance, d'adéquation à un usage particulier et de non-violation.</p>
-                
-                <p class="mb-3 text-sm">Ai-Me | Au Pays de Marie ne garantit pas que l'utilisation de cette application produira les résultats escomptés en termes de réduction de l'inflammation ou d'amélioration de la santé.</p>
-                
-                <p class="text-sm">Les résultats individuels peuvent varier et dépendent de nombreux facteurs, dont la condition physique préexistante, la génétique, la rigueur dans le suivi du programme, et d'autres facteurs de style de vie.</p>
-            </div>
-            
-            <div class="bg-white p-4 rounded-lg shadow-md">
-                <h3 class="text-lg font-bold text-primary mb-3">Qualification du contenu</h3>
-                
-                <p class="mb-3 text-sm">Ce programme représente des suggestions alimentaires générales à titre informatif uniquement et non des prescriptions médicales.</p>
-                
-                <p class="mb-3 text-sm">Pour des conseils personnalisés adaptés à votre situation médicale spécifique, consultez un nutritionniste ou un diététicien certifié.</p>
-                
-                <p class="text-sm">Ce programme s'inspire de principes nutritionnels généralement acceptés mais n'a pas fait l'objet d'études cliniques spécifiques.</p>
-            </div>
-        </section>
-        
-        <!-- Version PDF pour impression -->
-        <section class="print-only">
-            <h2 class="text-2xl font-bold text-primary mb-4">Régime Anti-Inflammatoire - 15 Jours</h2>
-            <p class="italic mb-6">Un programme complet sans gluten pour réduire l'inflammation</p>
-            
-            <!-- Contenu imprimable spécifique -->
-        </section>
-    </main>
-    
-    <footer class="bg-primary text-white p-4 mt-8">
-        <div class="container mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <h3 class="text-lg font-bold">Ai-Me | Au Pays de Marie</h3>
-                    <p class="text-sm mt-1">Programme anti-inflammatoire sans gluten</p>
-                </div>
-                
-                <div class="text-center md:text-right">
-                    <p class="text-sm mb-1">© 2023 Tous droits réservés</p>
-                    <p class="text-xs opacity-75">Ce document est fourni à titre informatif uniquement</p>
-                </div>
-            </div>
-            
-            <div class="mt-4 pt-4 border-t border-green-700 text-center text-xs">
-                <p>Consultez toujours un professionnel de santé avant de commencer un nouveau régime alimentaire</p>
-            </div>
+  <main class="max-w-5xl mx-auto mt-24 md:mt-28 px-2 md:px-8 mb-24">
+  <!-- Programme 21 Jours -->
+  <section id="section-programme">
+    <h1 class="text-3xl md:text-4xl text-emerald-700 font-extrabold mb-2">Programme 21 Jours Anti-Inflammatoire</h1>
+    <p class="mb-6 text-gray-700 text-lg">Découvrez 21 jours uniques de recettes conçues pour lutter contre l’inflammation, stimuler votre énergie, et prendre soin de votre bien-être. Chaque jour apporte diversité et saveur !</p>
+    <div class="flex items-center space-x-2 mb-4">
+      <span class="text-emerald-500 font-semibold">Aller au jour :</span>
+      <select id="selectDay" class="outline-none border border-emerald-400 rounded px-2 py-1">
+        <!-- Options day 1 to 21 -->
+        <option value="0">Jour 1</option>
+        <option value="1">Jour 2</option>
+        <option value="2">Jour 3</option>
+        <option value="3">Jour 4</option>
+        <option value="4">Jour 5</option>
+        <option value="5">Jour 6</option>
+        <option value="6">Jour 7</option>
+        <option value="7">Jour 8</option>
+        <option value="8">Jour 9</option>
+        <option value="9">Jour 10</option>
+        <option value="10">Jour 11</option>
+        <option value="11">Jour 12</option>
+        <option value="12">Jour 13</option>
+        <option value="13">Jour 14</option>
+        <option value="14">Jour 15</option>
+        <option value="15">Jour 16</option>
+        <option value="16">Jour 17</option>
+        <option value="17">Jour 18</option>
+        <option value="18">Jour 19</option>
+        <option value="19">Jour 20</option>
+        <option value="20">Jour 21</option>
+      </select>
+      <button id="prevDay" class="text-emerald-500 hover:text-emerald-700 rounded border border-emerald-200 bg-emerald-50 px-2 py-1 text-sm"><i class="fas fa-chevron-left"></i> Précédent</button>
+      <button id="nextDay" class="text-emerald-500 hover:text-emerald-700 rounded border border-emerald-200 bg-emerald-50 px-2 py-1 text-sm">Suivant <i class="fas fa-chevron-right"></i></button>
+    </div>
+    <div id="programmeContent" class="bg-white shadow rounded-xl p-6 my-4">
+      <!-- Recipes Day Content Here -->
+    </div>
+  </section>
+
+  <!-- Liste de Courses -->
+  <section id="section-courses" style="display:none;">
+    <h2 class="text-2xl md:text-3xl text-emerald-700 font-bold mb-2 mt-6">Liste de Courses Hebdomadaires</h2>
+    <p class="mb-4 text-gray-700">Tout ce dont vous avez besoin pour suivre les recettes uniques de chaque semaine.</p>
+    <div class="mb-2">
+      <button class="courses-btn px-3 py-1 rounded border bg-emerald-100 text-emerald-700 font-semibold mr-2" data-week="0">Semaine 1 (J1-J7)</button>
+      <button class="courses-btn px-3 py-1 rounded border bg-emerald-100 text-emerald-700 font-semibold mr-2" data-week="1">Semaine 2 (J8-J14)</button>
+      <button class="courses-btn px-3 py-1 rounded border bg-emerald-100 text-emerald-700 font-semibold" data-week="2">Semaine 3 (J15-J21)</button>
+    </div>
+    <div id="coursesContent" class="bg-white shadow rounded-xl p-6 my-4"></div>
+  </section>
+  
+  <!-- Suivi d'Eau -->
+  <section id="section-eau" style="display:none;">
+    <h2 class="text-2xl md:text-3xl text-emerald-700 font-bold mb-2 mt-6">Suivi de Consommation d’Eau</h2>
+    <p class="mb-4 text-gray-700">Votre objectif : <span class="font-bold text-emerald-700">2L (8 verres)</span> par jour pour favoriser l’élimination des toxines et la régulation anti-inflammatoire.</p>
+    <div class="rounded-xl p-6 bg-emerald-50 mb-4 w-full max-w-md mx-auto">
+      <label for="waterGlasses" class="block text-emerald-800 font-semibold mb-2">Nombre de verres bus aujourd'hui :</label>
+      <input type="number" id="waterGlasses" min="0" max="12" value="0" class="border border-emerald-300 rounded w-24 px-2 py-1 mb-2 text-lg font-bold text-emerald-700">
+      <progress id="waterProgress" value="0" max="8" class="w-full h-3 rounded mb-2"></progress>
+      <div id="waterFeedback" class="mt-2 text-emerald-700 font-semibold"></div>
+      <button class="mt-2 px-3 py-1 bg-emerald-300 text-emerald-900 font-semibold rounded transition hover:bg-emerald-400" onclick="saveWater()">Sauvegarder</button>
+    </div>
+    <h3 class="font-bold text-md text-emerald-600 mb-2">Historique de la semaine</h3>
+    <table id="waterHistory" class="w-full max-w-xl mx-auto mb-6 text-xs">
+      <thead>
+        <tr>
+          <th class="border-b py-1">Jour</th>
+          <th class="border-b py-1">Verres bus</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div>
+      <h4 class="font-semibold text-emerald-700 mt-6 mb-1">Conseils pour bien s’hydrater</h4>
+      <ul class="list-disc list-inside text-gray-700 mb-2">
+        <li>Buvez un verre d’eau dès le réveil</li>
+        <li>Gardez toujours une bouteille à portée de main</li>
+        <li>Préférez l’eau fraîche, tisanes ou infusions naturelles</li>
+        <li>Évitez sodas, boissons sucrées et alcool</li>
+      </ul>
+    </div>
+  </section>
+  
+  <!-- Suivi Symptômes -->
+  <section id="section-symptomes" style="display:none;">
+    <h2 class="text-2xl md:text-3xl text-emerald-700 font-bold mb-2 mt-6">Suivi de Progression & Symptômes</h2>
+    <form id="symptomsForm" class="max-w-2xl bg-white rounded-xl shadow p-5 mb-4">
+      <label class="block font-semibold text-emerald-800">Date :</label>
+      <input type="date" id="symptDate" class="border border-gray-300 rounded px-2 py-1 mb-3 block w-40" required>
+      <label class="block font-semibold text-emerald-800">Niveau d’inflammation ressenti :</label>
+      <input type="range" id="inflammationLevel" min="1" max="10" value="5" class="w-1/2 mb-2">
+      <span class="text-emerald-600 font-semibold" id="levelLabel">5/10</span>
+      <div class="mb-3 mt-2">
+        <label class="block font-semibold text-emerald-800 mb-1">Symptômes observés :</label>
+        <div class="grid grid-cols-2 gap-x-4 gap-y-2">
+          <label><input type="checkbox" class="mr-1" name="symptoms" value="Douleurs articulaires">Douleurs articulaires</label>
+          <label><input type="checkbox" class="mr-1" name="symptoms" value="Fatigue">Fatigue</label>
+          <label><input type="checkbox" class="mr-1" name="symptoms" value="Digestion difficile">Digestion difficile</label>
+          <label><input type="checkbox" class="mr-1" name="symptoms" value="Maux de tête">Maux de tête</label>
+          <label><input type="checkbox" class="mr-1" name="symptoms" value="Problèmes de peau">Problèmes de peau</label>
+          <label><input type="checkbox" class="mr-1" name="symptoms" value="Troubles du sommeil">Troubles du sommeil</label>
         </div>
-    </footer>
-    
-    <script>
-        // Navigation principale
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const target = tab.dataset.target;
-                
-                // Activer l'onglet
-                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                // Afficher la section correspondante
-                document.querySelectorAll('.content-section').forEach(section => {
-                    section.classList.remove('active');
-                });
-                document.getElementById(target).classList.add('active');
-            });
-        });
-        
-        // Navigation des jours
-        document.querySelectorAll('.day-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const day = tab.dataset.day;
-                
-                // Activer l'onglet du jour
-                document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                // Afficher le contenu du jour correspondant
-                document.querySelectorAll('.day-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                document.querySelector(`.day-content[data-day="${day}"]`).classList.add('active');
-            });
-        });
-        
-        // Suivi de consommation d'eau
-        const waterFill = document.getElementById('water-fill');
-        const waterPercent = document.getElementById('water-percent');
-        const waterCount = document.getElementById('water-count');
-        const addWaterBtn = document.getElementById('add-water');
-        const resetWaterBtn = document.getElementById('reset-water');
-        const waterDrops = document.querySelectorAll('.water-drop');
-        const waterHistory = document.getElementById('water-history');
-        
-        // Initialiser les données d'eau depuis le stockage local ou créer un nouvel objet
-        let waterData = JSON.parse(localStorage.getItem('waterData')) || {
-            today: {
-                date: new Date().toLocaleDateString(),
-                glasses: 0
-            },
-            history: []
-        };
-        
-        // Mettre à jour l'affichage de l'eau
-        function updateWaterDisplay() {
-            const glasses = waterData.today.glasses;
-            const percent = Math.min(glasses * 12.5, 100);
-            
-            waterFill.style.height = `${percent}%`;
-            waterPercent.textContent = `${percent}%`;
-            waterCount.textContent = glasses;
-            
-            // Mettre à jour les gouttes
-            waterDrops.forEach((drop, index) => {
-                if (index < glasses) {
-                    drop.classList.add('filled');
-                } else {
-                    drop.classList.remove('filled');
-                }
-            });
-            
-            // Sauvegarder dans le stockage local
-            localStorage.setItem('waterData', JSON.stringify(waterData));
-            
-            // Mettre à jour l'historique
-            updateWaterHistory();
+      </div>
+      <label class="block font-semibold text-emerald-800">Notes supplémentaires :</label>
+      <textarea id="symptNotes" rows="2" class="w-full border border-gray-300 rounded px-2 py-1 mb-2"></textarea>
+      <button type="submit" class="px-4 py-1 mt-1 rounded bg-emerald-400 hover:bg-emerald-500 text-white font-semibold">Ajouter</button>
+    </form>
+    <table id="symptHistory" class="w-full max-w-2xl mx-auto mb-10 text-xs">
+      <thead>
+        <tr>
+          <th class="border-b py-1">Date</th>
+          <th class="border-b py-1">Niveau</th>
+          <th class="border-b py-1">Symptômes</th>
+          <th class="border-b py-1">Notes</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div>
+      <h4 class="font-semibold text-emerald-700 mt-6 mb-1">Conseils de suivi</h4>
+      <ul class="list-disc list-inside text-gray-700 mb-2">
+        <li>Notez vos symptômes pour repérer l'évolution</li>
+        <li>Adaptez le programme selon vos besoins</li>
+        <li>Consultez un professionnel si aggravation</li>
+      </ul>
+    </div>
+  </section>
+  
+  <!-- Informations Anti-inflammatoires -->
+  <section id="section-infos" style="display:none;">
+    <h2 class="text-2xl md:text-3xl text-emerald-700 font-bold mb-2 mt-6">À Propos du Régime Anti-Inflammatoire</h2>
+    <div class="bg-white shadow rounded-xl p-6 my-6 space-y-5">
+      <div>
+        <span class="italic flex items-center gap-2 text-lg text-indigo-800"><i class="fas fa-quote-left"></i> “Que ton aliment soit ta seule médecine.” <span class="text-sm text-gray-500 ml-1">– Hippocrate</span></span>
+      </div>
+      <div>
+        <h3 class="font-bold text-emerald-700 mb-1">Principes du Programme :</h3>
+        <ul class="list-disc list-inside ml-3 text-gray-700">
+          <li>Privilégier les aliments naturels, riches en oméga-3 & antioxydants</li>
+          <li>Limiter gluten, produits laitiers, sucres ajoutés, aliments transformés</li>
+          <li>Accorder une grande place aux légumes, fruits, légumineuses, céréales complètes sans gluten</li>
+          <li>Consommer des huiles saines et des protéines maigres</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold text-emerald-700">Aliments à privilégier :</h4>
+        <ul class="list-disc list-inside grid grid-cols-2 gap-y-1 text-gray-700">
+          <li>Légumes verts à feuilles</li>
+          <li>Fruits rouges, agrumes</li>
+          <li>Poissons gras (saumon, maquereau)</li>
+          <li>Légumineuses</li>
+          <li>Ail, oignon, curcuma, gingembre</li>
+          <li>Noix, graines, huile d’olive</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold text-emerald-700">Aliments à éviter :</h4>
+        <ul class="list-disc list-inside grid grid-cols-2 gap-y-1 text-gray-700">
+          <li>Gluten (pain, pâtes classiques...)</li>
+          <li>Sucre raffiné</li>
+          <li>Produits laitiers</li>
+          <li>Viandes rouges en excès</li>
+          <li>Plats préparés/transformés</li>
+          <li>Alcool, sodas</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold text-emerald-700">Conseils mode de vie :</h4>
+        <ul class="list-disc list-inside text-gray-700">
+          <li>Bougez : activité physique régulière</li>
+          <li>Soulagez le stress : respiration, méditation</li>
+          <li>Sommeil de qualité : rythme régulier</li>
+          <li>Hydratez-vous bien (2L/jour ou plus)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Foire aux Questions -->
+  <section id="section-faq" style="display:none;">
+    <h2 class="text-2xl md:text-3xl text-emerald-700 font-bold mb-2 mt-6">FAQ - Questions Fréquentes</h2>
+    <div class="space-y-5 text-gray-800">
+      <div>
+        <b>Combien de temps avant de ressentir les effets ?</b>
+        <div class="ml-2">Certains ressentent une amélioration dès la première semaine, d’autres après 3 semaines ; l’assiduité est la clé.</div>
+      </div>
+      <div>
+        <b>Puis-je adapter les recettes ?</b>
+        <div class="ml-2">Oui, adaptez selon vos allergies ou your goûts, mais gardez l’équilibre anti-inflammatoire du programme.</div>
+      </div>
+      <div>
+        <b>Ce régime convient-il aux sportifs ?</b>
+        <div class="ml-2">Bien sûr, pensez simplement à ajuster portions et apports selon votre activité et vos besoins énergétiques.</div>
+      </div>
+      <div>
+        <b>Que faire si j’ai souvent faim ?</b>
+        <div class="ml-2">Augmentez la part de légumes, ajoutez une collation saine (fruits, noix, houmous...). L’hydratation aide aussi.</div>
+      </div>
+      <div>
+        <b>Dois-je consulter un professionnel ?</b>
+        <div class="ml-2">C’est toujours recommandé, surtout en cas de pathologies ou si vous suivez déjà un traitement médical.</div>
+      </div>
+      <div>
+        <b>Je suis végétarien/végétalien, est-ce adapté ?</b>
+        <div class="ml-2">Beaucoup de recettes sont “veggie friendly”, mais n’hésitez pas à demander une version adaptée à vos besoins !</div>
+      </div>
+    </div>
+  </section>  
+  </main>
+  
+  <footer class="text-center p-5 text-xs text-gray-500 bg-white border-t mt-12 w-full">
+    <div class="max-w-4xl mx-auto">
+      <span class="block text-emerald-800 font-semibold mb-1">Anti-Inflammatoire 21J • Créé avec soin pour inspirer votre santé</span>
+      <span>© 2024 Au Pays de Marie. Conseils à titre informatif, consulter un professionnel avant tout changement alimentaire.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Sample program data (21 days with 4 unique recipes per day)
+    const programme = [
+      {
+        day: 1,
+        phrase: "Chaque repas anti-inflammatoire nourrit votre énergie.",
+        meals: [
+          {
+            meal: "Petit-déjeuner",
+            title: "Smoothie vert énergie",
+            ingredients: [
+              "1 banane",
+              "1 poignée d'épinards frais",
+              "½ avocat",
+              "200 ml lait d’amande",
+              "1 c. à c. graines de chia",
+              "Quelques feuilles de menthe"
+            ],
+            steps: [
+              "Mixez tous les ingrédients jusqu’à consistance lisse.",
+              "Versez dans un verre et parsemez de graines de chia.",
+              "Dégustez bien frais."
+            ]
+          },
+          {
+            meal: "Déjeuner",
+            title: "Salade de quinoa, pois chiches & légumes rôtis",
+            ingredients: [
+              "80 g quinoa cuit",
+              "1 petite boîte de pois chiches",
+              "1 poivron rouge",
+              "½ courgette",
+              "1 carotte",
+              "Huile d’olive, cumin, curcuma, poivre",
+              "Jus de citron, persil"
+            ],
+            steps: [
+              "Préchauffez le four à 180°C. Coupez légumes en cubes.",
+              "Les disposer sur une plaque, arroser d’huile & épices, rôtir 20 min.",
+              "Mélangez légumes rôtis, quinoa, pois chiches, persil & jus de citron dans un saladier."
+            ]
+          },
+          {
+            meal: "Collation",
+            title: "Compote pomme-framboise maison",
+            ingredients: [
+             "2 pommes",
+             "80 g framboises fraîches ou surgelées",
+             "½ c. à c. cannelle"
+            ],
+            steps: [
+              "Épluchez les pommes, coupez-les en dés.",
+              "Faites cuire à feu doux 10 min avec les framboises, écrasez à la fourchette.",
+              "Ajoutez la cannelle et servez tiède ou froid."
+            ]
+          },
+          {
+            meal: "Dîner",
+            title: "Poêlée de cabillaud au curcuma et brocolis vapeur",
+            ingredients: [
+              "150 g filet de cabillaud",
+              "1 c. à c. curcuma",
+              "1 petit brocoli",
+              "Huile d’olive, citron, poivre",
+              "1 c. à s. graines de courge"
+            ],
+            steps: [
+              "Faites cuire le brocoli à la vapeur 7 min.",
+              "Dans une poêle, faites revenir le poisson avec huile, curcuma & poivre 3-4 min.",
+              "Dressez poisson & brocoli, parsemez graines, arrosez de citron."
+            ]
+          }
+        ]
+      },
+      // Days 2-21 recipes generated below (each with 4 unique recipes)
+      {
+        day: 2, phrase: "Un repas sain est un cadeau de vitalité.",
+        meals: [
+          {meal:"Petit-déjeuner",title:"Porridge sarrazin & pomme",ingredients:["50g flocons de sarrasin","200ml lait végétal","1 pomme râpée","1 c.à.c cannelle","Noix hachées"],steps:["Faites chauffer le lait avec les flocons, laissez mijoter 5 min.","Ajoutez la pomme râpée et la cannelle.","Servez saupoudré de noix."]},
+          {meal:"Déjeuner",title:"Buddha bowl lentilles, patate douce & avocat",ingredients:["80g lentilles vertes cuites","1/2 patate douce rôtie","1/2 avocat","Tomate cerise","Graines de sésame","Roquette"],steps:["Faites rôtir la patate douce en cubes 20 min à 180°C.","Dans un bol, disposez lentilles, roquette, patate, avocat tranché & tomates.","Parsemez graines de sésame."]},
+          {meal:"Collation",title:"Bâtonnets de concombre et houmous",ingredients:["1/2 concombre","60g houmous maison (pois chiches, citron, tahini, cumin)"],steps:["Coupez le concombre en bâtons.","Servez avec houmous en dip."]},
+          {meal:"Dîner",title:"Saumon à l’aneth, purée de petits pois & quinoa",ingredients:["120g filet saumon","80g petits pois cuits","60g quinoa cuit","Aneth, citron, poivre"],steps:["Faites cuire le saumon au four 12 min à 180°C.","Mixez les petits pois en purée lisse, ajoutez un filet de citron.","Servez le saumon avec quinoa & purée, saupoudrez d’aneth."]}
+        ]
+      },
+      {
+        day: 3, phrase: "Un petit pas chaque jour vers moins d’inflammation.",
+        meals: [
+          {meal:"Petit-déjeuner",title:"Pancakes à la banane & farine de riz",ingredients:["1 banane","50g farine de riz","1 œuf","Cannelle","Huile coco pour cuisson"],steps:["Écrasez la banane, mélangez avec œuf & farine.","Cuire en petits pancakes à la poêle.","Saupoudrez de cannelle."]},
+          {meal:"Déjeuner",title:"Salade tiède de riz complet, épinards & poulet",ingredients:["70g riz complet cuit","80g blanc de poulet grillé","1 poignée d’épinards","1 c.à.s. huile olive","Jus citron"],steps:["Faites griller le poulet & coupez en lamelles.","Mélangez riz, épinards, poulet & assaisonnement, servez tiède."]},
+          {meal:"Collation",title:"Salade d’ananas frais et graines de chia",ingredients:["60g ananas frais","1 c.à.c. graines de chia","1/2 orange pressée"],steps:["Coupez l’ananas en morceaux.","Mélangez avec jus d’orange & graines de chia."]},
+          {meal:"Dîner",title:"Wok crevettes, légumes croquants & gingembre",ingredients:["80g crevettes décortiquées","Carottes râpées","Dés de courgette","Poivron","1 c.à.c. gingembre râpé"],steps:["Faites sauter les légumes avec gingembre dans huile olive.","Ajoutez les crevettes en fin de cuisson.","Servez chaud."]}
+        ]
+      },
+      {
+        day: 4, phrase:"Chaque plat anti-inflammatoire est un pas de plus vers la santé.",
+        meals: [
+          {meal:"Petit-déjeuner",title:"Chia pudding lait coco & fruits rouges",ingredients:["2 c.à.s. graines de chia","120ml lait de coco","Fruits rouges frais"],steps:["Mélangez graines & lait la veille, laissez gonfler au frais.","Servez avec fruits rouges."]},
+          {meal:"Déjeuner",title:"Wraps de laitue, poulet citronné & crudités",ingredients:["Blanc de poulet grillé tranché","Grandes feuilles de laitue","Carottes râpées","Lamelles de poivron","Jus citron, cumin"],steps:["Disposez le poulet et légumes sur laitue, roulez en wraps.","Assaisonnez au citron/cumin."]},
+          {meal:"Collation",title:"Muffin amandes, abricots & sésame (sans gluten)",ingredients:["1 œuf","2 c.à.s. poudre d’amandes","2 abricots secs coupés","1 c.à.c. graines sésame"],steps:["Mélangez tous les ingrédients.","Versez dans moule silicone et faites cuire 12min à 180°C."]},
+          {meal:"Dîner",title:"Poêlée de dinde aux patates douces, gingembre & épinards",ingredients:["100g filet de dinde","80g patate douce en cubes","Epinards frais","1 c.à.c. gingembre râpé"],steps:["Faites revenir la dinde, ajoutez la patate douce, puis épinards & gingembre, cuire jusqu’à tendreté."]}
+        ]
+      },
+      {
+        day: 5, phrase:"Une assiette colorée, c’est la promesse de nutriments & plaisir.",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Fromage blanc végétal, mangue & noix de coco",ingredients:["100g yaourt soja ou coco nature","½ mangue coupée","1 c.à.s. noix de coco râpée"],steps:["Déposez yaourt dans un bol, ajoutez mangue & coco.","Savourez."]},
+          {meal:"Déjeuner",title:"Dhal lentilles corail, carotte & coriandre",ingredients:["60g lentilles corail","½ carotte","Coriandre fraîche","1 c.à.c. curcuma","200ml lait coco"],steps:["Faites revenir la carotte en dés, ajoutez lentilles/coco/curcuma, mijotez 18 min.","Ajoutez la coriandre et servez."]},
+          {meal:"Collation",title:"Galettes de sarrasin, purée d’amande & myrtilles",ingredients:["1 galette de sarrasin","1 c.à.s. purée d’amande","Myrtilles fraîches"],steps:["Tartinez la galette, parsemez de fruits."]},
+          {meal:"Dîner",title:"Filet de truite, épinards poêlés & quinoa aux graines",ingredients:["110g filet de truite","80g épinards","70g quinoa cuit","Graines de tournesol"],steps:["Poêlez la truite 3min/face.","Faites tomber épinards, servez avec quinoa et parsemez de graines."]}
+        ]
+      },
+      {
+        day: 6, phrase:"Varier, c’est vaincre la monotonie et augmenter ses apports.",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Omelette aux herbes et tomates cerises",ingredients:["2 œufs","Persil, ciboulette","5 tomates cerises","Poivre"],steps:["Battez les œufs & herbes.","Ajoutez tomates coupées, faites cuire à feu doux."]},
+          {meal:"Déjeuner",title:"Taboulé de millet, menthe & grenade",ingredients:["60g millet cuit","Menthe fraîche","½ grenade","Concombre, tomate","Citron"],steps:["Mélangez tous les ingrédients.","Assaisonnez au citron et herbes."]},
+          {meal:"Collation",title:"Pois chiches grillés au paprika",ingredients:["80g pois chiches cuits rincés","Paprika","Huile olive"],steps:["Mélangez pois chiches & épices.","Cuire au four 18min à 180°C."]},
+          {meal:"Dîner",title:"Curry pois cassés, chou-fleur & curcuma",ingredients:["60g pois cassés cuits","Petits bouquets de chou-fleur","1 c.à.c. curcuma","200ml lait coco"],steps:["Faites revenir chou-fleur, ajoutez pois cassés/épices/lait, mijotez 10min."]}
+        ]
+      },
+      {
+        day: 7, phrase:"Une semaine, de nouveaux automatismes !",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Pain sans gluten, avocat et œuf poché",ingredients:["1 tranche pain SG","½ avocat","1 œuf","Jus citron"],steps:["Toastez le pain, écrasez avocat dessus.","Pochez l’œuf, déposez, arrosez de citron."]},
+          {meal:"Déjeuner",title:"Sauté tofu, algues nori & légumes verts",ingredients:["80g tofu ferme nature","Lanières d’algue nori","Haricots verts","Courgette","Gingembre"],steps:["Faites dorer tofu en cubes.","Ajoutez légumes, nori & gingembre, faire sauter."]},
+          {meal:"Collation",title:"Muesli sans sucre aux pommes",ingredients:["Muesli SG sans sucre","Compote pomme sans sucre"],steps:["Mélangez et dégustez."]},
+          {meal:"Dîner",title:"Brochettes poulet, poivrons & riz sauvage",ingredients:["100g blanc poulet","Dés poivrons","1 portion riz sauvage","Paprika, cumin"],steps:["Montez les brochettes, faites griller.","Servez avec riz."]}
+        ]
+      },
+      {
+        day: 8, phrase:"S’hydrater accompagne la détox !",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Bowl millet, kiwi, noix & graines",ingredients:["60g millet cuit froid","1 kiwi tranché","Noix","Graines de courge"],steps:["Déposez millet dans un bol.","Ajoutez kiwi, noix et graines sur le dessus."]},
+          {meal:"Déjeuner",title:"Poêlée colin, courgette & citron vert",ingredients:["120g colin","1/2 courgette","Zeste citron vert","Huile olive, poivre"],steps:["Poêlez le poisson et la courgette en dés.","Ajoutez zeste et un filet d’huile d’olive, servez chaud."]},
+          {meal:"Collation",title:"Flan de chia & lait d’amande",ingredients:["2 c.à.s. graines chia","120ml lait d’amande","1 trait vanille liquide"],steps:["Mélangez, laissez gonfler 1h au frais.","Remuez et servez."]},
+          {meal:"Dîner",title:"Tian de légumes méditerranéens",ingredients:["Aubergine","Courgette","Tomate","Herbes de Provence","Huile olive"],steps:["Coupez en rondelles, disposez en alternance.","Arrosez d’huile, cuisez 35min à 180°C."]}
+        ]
+      },
+      {
+        day: 9, phrase:"N’oubliez jamais de mastiquer lentement pour mieux digérer.",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Smoothie pois cassé vanille & fruits rouges",ingredients:["40g pois cassés cuits froids","1 verre lait amande","Fruits rouges","Vanille"],steps:["Mixez tout jusqu’à lisse.","Servez très frais."]},
+          {meal:"Déjeuner",title:"Pâtes SG sauce légumes confits & basilic",ingredients:["60g pâtes SG cuites","Dés d’aubergine/tomate/poivron","Basilic frais","Huile olive"],steps:["Faites revenir légumes à feu doux 20min.","Ajoutez aux pâtes et basilic haché."]},
+          {meal:"Collation",title:"Fruit frais (poire) & noix du Brésil",ingredients:["1 belle poire","4 noix du Brésil"],steps:["Tranchez la poire, dégustez avec noix."]},
+          {meal:"Dîner",title:"Sardines grillées, fenouil & pommes de terre vapeur",ingredients:["2 sardines fraîches","1 petit fenouil","Pommes de terre","Persil"],steps:["Grillez les sardines, cuisez fenouil & PDT à la vapeur.","Parsemez de persil haché."]}
+        ]
+      },
+      {
+        day: 10, phrase:"Ajoutez une épice douce à votre journée.",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Crème de riz à la fleur d’oranger",ingredients:["50g crème de riz","200ml lait amande","1 c. à c. fleur d'oranger","Copeaux chocolat noir"],steps:["Faites chauffez riz & lait à feu doux.","Ajoutez fleur d’oranger, servez avec copeaux."]},
+          {meal:"Déjeuner",title:"Salade haricots rouges, tomate & coriandre",ingredients:["60g haricots rouges cuits","Tomate","Coriandre fraîche","Jus citron","4 olives vertes"],steps:["Mélangez tous les ingrédients, assaisonnez bien."]},
+          {meal:"Collation",title:"Tartine SG purée de noisettes & figues fraîches",ingredients:["1 tranche pain SG","1 c.à.s. purée noisettes","2 figues"],steps:["Tartinez et disposez les figues en tranches."]},
+          {meal:"Dîner",title:"Stir-fry dinde, pois mange-tout & shiro miso",ingredients:["100g émincé dinde","Pois mange-tout","1 c. à c. miso blanc (shiro)","Huile sésame"],steps:["Faites sauter dinde & légumes 4min.","Ajoutez le miso en fin."]}
+        ]
+      },
+      {
+        day: 11, phrase:"Le goût de chacun de vos repas est votre allié santé.",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Granola maison, amandes & baies de goji",ingredients:["50g flocons avoine SG","Amandes","Baies goji","1 c.à.s.d’huile coco","1 c.à.c. sirop agave"],steps:["Mélangez ingrédients, cuisez 15min à 150°C sur plaque.","Servez frais avec lait végétal."]},
+          {meal:"Déjeuner",title:"Poké bowl riz, crevettes & edamame",ingredients:["70g riz basmati","80g crevettes roses","Edamame cuit","Concombre en rondelles","Sauce soja SG"],steps:["Dressez tous les ingrédients dans un bol.","Versez un filet de sauce soja."]},
+          {meal:"Collation",title:"Barres énergie cranberries & amandes",ingredients:["30g dattes","20g amandes","20g cranberries ou raisins secs"],steps:["Mixez tout, formez des barres, conservez au frais."]},
+          {meal:"Dîner",title:"Soupe carotte, curcuma & lait coco",ingredients:["2 carottes","1 c.à.c. curcuma","150ml lait coco","1 pomme de terre","Persil"],steps:["Faites cuire légumes coupés.","Mixez avec lait coco & curcuma.","Servez avec persil."]}
+        ]
+      },
+      {
+        day: 12, phrase:"Expérimentez une épice nouvelle aujourd'hui !",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Pudding chia, compote de poire & pistaches",ingredients:["2 c.à.s. chia","120ml lait épeautre","Compote poire maison","Pistaches hachées"],steps:["Mélangez chia & lait, laissez gonfler au frais.","Servez recouvert de compote et pistaches."]},
+          {meal:"Déjeuner",title:"Terrine pois cassés, herbes & tomates",ingredients:["70g pois cassés cuits","Herbes fraîches (persil, ciboulette)","Dés tomate","Œuf (facultatif)"],steps:["Mélangez tout, versez dans un moule.","Cuire 25min à 170°C."]},
+          {meal:"Collation",title:"Chips de betterave au four",ingredients:["1 betterave crue","Huile olive","Origan"],steps:["Émincez finement betterave.","Passez à 150°C 25min sur plaque huilée."]},
+          {meal:"Dîner",title:"Risotto de sarrasin, épinards & noix",ingredients:["70g grains sarrasin","Épinards frais","Noix concassées","Bouillon légumes maison"],steps:["Faites cuire le sarrasin dans le bouillon.","Ajoutez épinards & noix en fin de cuisson."]}
+        ]
+      },
+      {
+        day: 13, phrase:"Une touche croquante donne le sourire !",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Toasts SG purée pois chiches & radis",ingredients:["2 tartines pain SG","Purée de pois chiches","Radis en rondelles"],steps:["Tartinez le pain, ajoutez radis."]},
+          {meal:"Déjeuner",title:"Chili sin carne aux haricots, quinoa & poivron",ingredients:["60g haricots rouges","Dés poivron","60g quinoa cuit","Tomates concassées","Paprika, cumin"],steps:["Faites revenir tout ensemble 20min à feu doux."]},
+          {meal:"Collation",title:"Poire pochée à la cannelle froide",ingredients:["1 poire","1 bâton cannelle","200ml eau"],steps:["Faites frémir la poire & cannelle 12min.","Laissez refroidir, servez avec un trait de citron."]},
+          {meal:"Dîner",title:"Gratin courgette, patate douce & noix de cajou",ingredients:["Tranches courgette/patate douce","20g noix de cajou concassées","Ail, huile olive"],steps:["Superposez légumes & noix dans plat.","Arrosez aceite, cuire 35min à 180°C."]}
+        ]
+      },
+      {
+        day: 14, phrase:"Nourrissez votre enthousiasme autant que votre corps.",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Muesli millet, noisettes & abricots secs",ingredients:["Millet cuit froid","Noisettes","Abricots secs","Lait amande"],steps:["Mélangez tout, servez avec lait."]},
+          {meal:"Déjeuner",title:"Filet de bar vapeur, poêlée fenouil-orange",ingredients:["120g filet bar","1 petit fenouil","1 orange","Herbes frais"],steps:["Cuisez le bar à la vapeur 7min.","Faites poêler fenouil, ajoutez segments d’orange & herbes."]},
+          {meal:"Collation",title:"Pommes cuites aux épices douces",ingredients:["Pomme coupée","Cannelle, cardamome","Jus citron"],steps:["Cuire pomme à couvert avec épices 8min.","Ajoutez jus citron en fin."]},
+          {meal:"Dîner",title:"Bowl patate douce rôtie, pois chiches & roquette",ingredients:["Patate douce en cubes","Pois chiches cuits","Roquette","Vinaigre balsamique"],steps:["Rôtissez patate douce 30min.","Mélangez avec pois chiches, servez sur roquette."]}
+        ]
+      },
+      {
+        day: 15, phrase:"Ajoutez un fruit violet chez vous aujourd’hui.",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Yaourt coco, mûres & sésame noir",ingredients:["100g yaourt coco","Mûres fraîches","1 c.à.c. sésame noir"],steps:["Ajoutez fruits et sésame au yaourt."]},
+          {meal:"Déjeuner",title:"Soupe froide concombre, menthe & noix de cajou",ingredients:["1/2 concombre","Quelques feuilles menthe","20g noix cajou trempées","200ml eau citronnée"],steps:["Mixez tout, servez bien frais."]},
+          {meal:"Collation",title:"Flan de patate douce à la cannelle",ingredients:["50g purée patate douce","1 œuf","Cannelle"],steps:["Mélangez, faites cuire 12min dans ramequin au four."]},
+          {meal:"Dîner",title:"Spaghettis riz sauce pistou courgette",ingredients:["Spaghettis riz (SG)","Courgette râpée","Basilic, pignons, ail","Huile olive"],steps:["Mixez basilic/pignons/ail/huile pour pistou.","Mélangez pâtes, courgette & sauce."]}
+        ]
+      },
+      {
+        day: 16, phrase:"Un nouvel ingrédient, une nouvelle énergie.",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Bowl mangue, grenade & amandes",ingredients:["1/2 mangue coupée","1/2 grenade en grains","Amandes émincées"],steps:["Assemblez tout dans un bol."]},
+          {meal:"Déjeuner",title:"Poêlée tofu, courge & coriandre fraîche",ingredients:["80g tofu","Courge butternut","Coriandre","Poivre, huile olive"],steps:["Faites dorer les cubes de tofu.","Ajoutez courge en dés & coriandre, cuire 10min."]},
+          {meal:"Collation",title:"Pomme granny au beurre d’amande",ingredients:["1 pomme granny","1 c.à.s. purée d’amande complète"],steps:["Coupez la pomme en quartiers, tartinez d’amande."]},
+          {meal:"Dîner",title:"Curry de pois chiches, épinards et lait coco",ingredients:["80g pois chiches","100g épinards","1 c.à.c. curry doux","120ml lait coco"],steps:["Faites sauter épinards/pois chiches dans huile.","Ajoutez curry et lait, laissez mijoter."]}
+        ]
+      },
+      {
+        day: 17, phrase:"Souriez : c’est aussi anti-inflammatoire !",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Crème sarrasin, pruneaux & pavot",ingredients:["50g farine sarrasin","200ml boisson avoine SG","Pruneaux dénoyautés","Graines pavot"],steps:["Cuisez la crème à feu doux avec boisson avoine.","Ajoutez pruneaux coupés & pavot en fin."]},
+          {meal:"Déjeuner",title:"Sauté de lotte, fenouil & carottes",ingredients:["100g lotte","1 fenouil moyen","1 carotte","Ciboulette","Jus citron"],steps:["Faites revenir tout ensemble à la poêle, arrosez de citron."]},
+          {meal:"Collation",title:"Compote de rhubarbe & pomme",ingredients:["60g rhubarbe","1 pomme","1 c.à.c. miel d’acacia"],steps:["Faites cuire rhubarbe et pomme.","Ajoutez le miel, laissez refroidir."]},
+          {meal:"Dîner",title:"Risotto riz-complet, artichaut, petits pois",ingredients:["70g riz complet","Cœurs artichauts","70g petits pois cuits","Bouillon légumes","Aneth"],steps:["Cuire riz dans bouillon, ajoutez légumes & aneth fin de cuisson."]}
+        ]
+      },
+      {
+        day: 18, phrase:"Pensez à l’équilibre protéines/végétaux !",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Tartine pois cassés, avocat & shiso",ingredients:["Pain SG","Purée pois cassés","Avocat tranché","Feuilles shiso"],steps:["Tartinez purée & avocat, parsemez shiso."]},
+          {meal:"Déjeuner",title:"Poêlée quinoa, petits pois & poulet citron",ingredients:["80g quinoa cuit","Blanc poulet citronné","Petits pois","Menthe fraîche, poivre"],steps:["Mélangez tous les ingrédients, servez tiède."]},
+          {meal:"Collation",title:"Fraises fraîches, éclats de noisettes",ingredients:["100g fraises","Noisettes concassées"],steps:["Lavez fraises, parsemez de noisettes."]},
+          {meal:"Dîner",title:"Tian de légumes racines, pois chiches",ingredients:["Carottes, navet, panais","Pois chiches cuits","Herbes thym/laurier","Huile olive"],steps:["Disposez légumes tranchés et pois chiches en plat, arrosez huile, cuire 35min à 180°C."]}
+        ]
+      },
+      {
+        day: 19, phrase:"Testez la pleine conscience en mangeant !",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Bowl orange-kiwi et noix de pécan",ingredients:["1 orange pelée","1 kiwi","Noix de pécan hachées"],steps:["Coupez fruits, disposez dans un bol avec les noix."]},
+          {meal:"Déjeuner",title:"Tartelette fine patate douce & épinards",ingredients:["1 disque pâte SG","Lamelles patate douce","Epinards frais","Noix muscade"],steps:["Etalez pâte, garnissez, enfournez 20min à 200°C."]},
+          {meal:"Collation",title:"Smoothie pomme, céleri et citron",ingredients:["1 pomme","Branche céleri","Jus 1/2 citron"],steps:["Mixez tout avec 100ml eau.","Buvez frais."]},
+          {meal:"Dîner",title:"Dos de colin, purée patate douce & carotte",ingredients:["120g dos colin","Patate douce","Carotte","Cumin, ail"],steps:["Cuire légumes à l’eau, écrasez.","Cuire le colin à la vapeur.","Servir ensemble, ajoutez cumin."]}
+        ]
+      },
+      {
+        day: 20, phrase:"Soutenez votre flore avec aliments fermentés (kéfir, légumes lactofermentés).",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Bowl yaourt kéfir maison, mûres",ingredients:["100g yaourt kéfir maison","Mûres fraîches"],steps:["Mélangez et savourez pour la flore intestinale."]},
+          {meal:"Déjeuner",title:"Buddha bowl sarrasin, pois chiche & betterave",ingredients:["60g sarrasin cuit","Pois chiches","Dés de betterave","Salade verte","Citron"],steps:["Assemblez ingrédients dans un bol, citronnez."]},
+          {meal:"Collation",title:"Petits cakes myrtilles & graines de chia",ingredients:["75g farine riz","1 œuf","30g myrtilles","2 c.à.c. chia","Lait amande"],steps:["Mélangez tout, cuisez dans moules 18min à 200°C."]},
+          {meal:"Dîner",title:"Steak végétal lentille & noix, purée navet",ingredients:["Galettes lentille cuite/noix/oignon/herbes","Navet et pomme de terre pour purée"],steps:["Mixer ingrédients galettes, façonner, poêler.","Purée navet/pdt, servir galettes dessus."]}
+        ]
+      },
+      {
+        day: 21, phrase:"Félicitations, prenez soin de vous au quotidien, même après !",
+        meals:[
+          {meal:"Petit-déjeuner",title:"Pain coco banane sans gluten, purée noix cajou",ingredients:["2 tr tr pain coco maison","Purée noix cajou","1/2 banane en rondelles"],steps:["Tartinez pain, disposez banane dessus."]},
+          {meal:"Déjeuner",title:"Riz pilaf aux fèves & fenouil croquant",ingredients:["70g riz basmati","Fèves vertes","Fenouil émincé","Graines tournesol"],steps:["Faites cuire riz & fèves, ajoutez fenouil 2min avant fin.","Servez parsemé de graines."]},
+          {meal:"Collation",title:"Salade orange sanguine & menthe",ingredients:["1 orange sanguine pelée","Feuilles menthe fraîche"],steps:["Détaillez orange, hachez menthe, assemblez."]},
+          {meal:"Dîner",title:"Aubergines farcies quinoa, poêlée courgette & citron",ingredients:["½ aubergine","Quinoa cuit","Courgette","Citron","Herbes fraîches"],steps:["Creusez aubergine, cuisez la chair & la courgette.","Mélangez avec quinoa, farcissez, portez au four 25min.","Ajoutez herbes, arrosez citron."]}
+        ]
+      }
+    ];
+
+    // Courses (groceries: one per week, diverse, non-exhaustive for example)
+    const courses = [
+      {
+        title: "Semaine 1 (Jours 1-7)",
+        items: {
+          "Fruits & Légumes": [
+            "Bananes, pommes, framboises, épinards",
+            "Poivrons, courgettes, carottes, avocat, tomates cerise",
+            "Patate douce, champignons, brocoli, concombre",
+            "Ail, oignons, herbes fraîches",
+            "Fruits rouges, mangue"
+          ],
+          "Protéines": [
+            "Cabillaud, saumon, crevettes, poulet, pois chiches",
+            "Lentilles vertes, œufs, tofu ferme",
+          ],
+          "Féculents sans gluten": [
+            "Quinoa, riz complet, sarrasin",
+            "Pain sans gluten, flocons de riz, millet"
+          ],
+          "Oléagineux et graines": [
+            "Noix, graines de chia, graines tournesol, graines courge, poudre d’amandes"
+          ],
+          "Épices & condiments": [
+            "Cumin, curcuma, cannelle, paprika, persil, coriandre, huile olive, vinaigre",
+            "Lait d’amande, lait coco"
+          ]
         }
-        
-        // Vérifier si la date a changé
-        function checkDateChange() {
-            const today = new Date().toLocaleDateString();
-            if (waterData.today.date !== today) {
-                // Ajouter le jour précédent à l'historique
-                if (waterData.today.glasses > 0) {
-                    waterData.history.push({...waterData.today});
-                    // Limiter l'historique à 7 jours
-                    if (waterData.history.length > 7) {
-                        waterData.history.shift();
-                    }
-                }
-                // Réinitialiser pour aujourd'hui
-                waterData.today = {
-                    date: today,
-                    glasses: 0
-                };
-                // Mettre à jour l'affichage
-                updateWaterDisplay();
-            }
+      },
+      {
+        title: "Semaine 2 (Jours 8-14)",
+        items: {
+          "Fruits & Légumes": [
+            "Kiwis, poires, oranges, aubergines, courgettes, tomates",
+            "Carottes, haricots verts, betterave, fenouil",
+            "Patate douce, brocoli, grenade, myrtilles, pruneaux"
+          ],
+          "Protéines": [
+            "Colin, sardines, truite, blanc de poulet",
+            "Edamame, pois cassés, haricots rouges"
+          ],
+          "Féculents sans gluten": [
+            "Millet, quinoa, pâtes SG, flocons avoine SG"
+          ],
+          "Oléagineux et graines": [
+            "Noix de cajou, amandes, graines de sésame, noisettes, noix de pécan"
+          ],
+          "Épices & condiments": [
+            "Menthe, basilic, shiso, miso blanc, lait épeautre, huile sésame"
+          ]
         }
-        
-        // Mettre à jour l'historique de l'eau
-        function updateWaterHistory() {
-            // Effacer le contenu existant
-            waterHistory.innerHTML = '';
-            
-            // Ajouter l'entrée d'aujourd'hui
-            const todayRow = document.createElement('tr');
-            todayRow.innerHTML = `
-                <td class="px-4 py-2">${waterData.today.date} (Aujourd'hui)</td>
-                <td class="px-4 py-2">${waterData.today.glasses}</td>
-                <td class="px-4 py-2">${waterData.today.glasses >= 8 ? '✓' : '✗'}</td>
-            `;
-            waterHistory.appendChild(todayRow);
-            
-            // Ajouter l'historique
-            waterData.history.slice().reverse().forEach(day => {
-                const historyRow = document.createElement('tr');
-                historyRow.innerHTML = `
-                    <td class="px-4 py-2">${day.date}</td>
-                    <td class="px-4 py-2">${day.glasses}</td>
-                    <td class="px-4 py-2">${day.glasses >= 8 ? '✓' : '✗'}</td>
-                `;
-                waterHistory.appendChild(historyRow);
-            });
-            
-            // Afficher un message si l'historique est vide
-            if (waterData.history.length === 0 && waterData.today.glasses === 0) {
-                const emptyRow = document.createElement('tr');
-                emptyRow.innerHTML = `
-                    <td colspan="3" class="px-4 py-2 text-center italic text-gray-500">Aucun historique disponible</td>
-                `;
-                waterHistory.appendChild(emptyRow);
-            }
+      },
+      {
+        title: "Semaine 3 (Jours 15-21)",
+        items: {
+          "Fruits & Légumes": [
+            "Grenade, mûres, mangue, patate douce, pomme, orange sanguine, poire",
+            "Multilegumes racines, navet, panais, fenouil, artichauts, aubergines"
+          ],
+          "Protéines": [
+            "Filet de bar, lotte, steak végétal, galettes lentilles, œufs, tofu",
+            "Pois chiches, fèves vertes"
+          ],
+          "Féculents sans gluten": [
+            "Pain coco maison, riz basmati, sarrasin, spaghettis riz, farine riz"
+          ],
+          "Oléagineux et graines": [
+            "Graines pavot, graines chia, pignons pin, noix cajou, noix du Brésil"
+          ],
+          "Épices & condiments": [
+            "Curry doux, cannelle, muscade, herbes fraîches variées, lait kéfir, lait amande"
+          ]
         }
-        
-        // Ajouter un verre d'eau
-        addWaterBtn.addEventListener('click', () => {
-            checkDateChange();
-            if (waterData.today.glasses < 8) {
-                waterData.today.glasses++;
-                updateWaterDisplay();
-            }
+      }
+    ];
+
+    // Navigation 
+    function setActiveSection(section) {
+      const sections = ['programme', 'courses', 'eau', 'symptomes', 'infos', 'faq'];
+      for (const s of sections) {
+        document.getElementById('section-' + s).style.display = section === s ? '' : 'none';
+        // Nav link highlight
+        document.querySelectorAll('.nav-link').forEach(el => {
+          if (el.getAttribute('data-section') === section)
+            el.classList.add('nav-active');
+          else el.classList.remove('nav-active');
         });
-        
-        // Réinitialiser les verres d'eau
-        resetWaterBtn.addEventListener('click', () => {
-            checkDateChange();
-            waterData.today.glasses = 0;
-            updateWaterDisplay();
-        });
-        
-        // Ajouter un verre d'eau en cliquant sur les gouttes
-        waterDrops.forEach((drop, index) => {
-            drop.addEventListener('click', () => {
-                checkDateChange();
-                waterData.today.glasses = index + 1;
-                updateWaterDisplay();
-            });
-        });
-        
-        // Suivi des symptômes et progression
-        const inflammationLevel = document.getElementById('inflammation-level');
-        const inflammationValue = document.getElementById('inflammation-value');
-        const symptomCheckboxes = document.querySelectorAll('.symptom-checkbox');
-        const symptomNotes = document.getElementById('symptom-notes');
-        const symptomDate = document.getElementById('symptom-date');
-        const saveSymptoms = document.getElementById('save-symptoms');
-        const symptomHistory = document.getElementById('symptom-history');
-        const progressChart = document.getElementById('progress-chart');
-        
-        // Mettre à jour l'affichage du niveau d'inflammation
-        inflammationLevel.addEventListener('input', () => {
-            inflammationValue.textContent = inflammationLevel.value;
-        });
-        
-        // Définir la date d'aujourd'hui par défaut
-        symptomDate.valueAsDate = new Date();
-        
-        // Initialiser les données de symptômes depuis le stockage local ou créer un nouvel objet
-        let symptomData = JSON.parse(localStorage.getItem('symptomData')) || {
-            entries: []
-        };
-        
-        // Sauvegarder les symptômes
-        saveSymptoms.addEventListener('click', () => {
-            const checkedSymptoms = Array.from(symptomCheckboxes)
-                .filter(checkbox => checkbox.checked)
-                .map(checkbox => checkbox.nextElementSibling.textContent);
-            
-            const entry = {
-                date: symptomDate.value,
-                level: inflammationLevel.value,
-                symptoms: checkedSymptoms,
-                notes: symptomNotes.value
-            };
-            
-            // Ajouter l'entrée et trier par date
-            symptomData.entries.push(entry);
-            symptomData.entries.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            // Limiter à 15 entrées
-            if (symptomData.entries.length > 15) {
-                symptomData.entries.pop();
-            }
-            
-            // Sauvegarder dans le stockage local
-            localStorage.setItem('symptomData', JSON.stringify(symptomData));
-            
-            // Mettre à jour l'affichage
-            updateSymptomHistory();
-            updateProgressChart();
-            
-            // Réinitialiser le formulaire
-            symptomCheckboxes.forEach(checkbox => checkbox.checked = false);
-            symptomNotes.value = '';
-            inflammationLevel.value = 5;
-            inflammationValue.textContent = '5';
-            
-            alert('Entrée sauvegardée avec succès !');
-        });
-        
-        // Mettre à jour l'historique des symptômes
-        function updateSymptomHistory() {
-            // Effacer le contenu existant
-            symptomHistory.innerHTML = '';
-            
-            // Afficher un message si l'historique est vide
-            if (symptomData.entries.length === 0) {
-                symptomHistory.innerHTML = '<p class="text-center text-sm text-gray-500 italic">Aucune entrée pour le moment</p>';
-                return;
-            }
-            
-            // Ajouter les entrées d'historique
-            symptomData.entries.forEach(entry => {
-                const entryElement = document.createElement('div');
-                entryElement.className = 'p-2 mb-2 border-b border-gray-200';
-                
-                const dateObj = new Date(entry.date);
-                const formattedDate = dateObj.toLocaleDateString();
-                
-                entryElement.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <span class="font-medium">${formattedDate}</span>
-                        <span class="text-sm">Niveau: ${entry.level}/10</span>
-                    </div>
-                    ${entry.symptoms.length > 0 ? 
-                        `<p class="text-sm mt-1">Symptômes: ${entry.symptoms.join(', ')}</p>` : 
-                        '<p class="text-sm mt-1 italic">Aucun symptôme signalé</p>'}
-                    ${entry.notes ? `<p class="text-sm mt-1 italic">"${entry.notes}"</p>` : ''}
-                `;
-                
-                symptomHistory.appendChild(entryElement);
-            });
-        }
-        
-        // Mettre à jour le graphique de progression
-        function updateProgressChart() {
-            // Effacer le contenu existant
-            progressChart.innerHTML = '';
-            
-            // Créer un graphique simple des niveaux d'inflammation
-            const sortedEntries = [...symptomData.entries].sort((a, b) => new Date(a.date) - new Date(b.date));
-            const maxEntries = Math.min(sortedEntries.length, 15);
-            
-            for (let i = 0; i < maxEntries; i++) {
-                const barHeight = (sortedEntries[i].level / 10) * 100;
-                const bar = document.createElement('div');
-                bar.className = 'bg-primary rounded-t-sm';
-                bar.style.height = `${barHeight}%`;
-                bar.style.width = '12px';
-                
-                // Ajouter des infobulles
-                bar.title = `Jour ${i+1}: ${sortedEntries[i].level}/10`;
-                
-                progressChart.appendChild(bar);
-            }
-            
-            // Afficher un message si pas assez de données
-            if (sortedEntries.length === 0) {
-                progressChart.innerHTML = '<p class="text-center text-sm text-gray-500 italic w-full">Aucune donnée disponible</p>';
-            }
-        }
-        
-        // Initialisation
-        window.addEventListener('DOMContentLoaded', () => {
-            checkDateChange();
-            updateWaterDisplay();
-            updateSymptomHistory();
-            updateProgressChart();
-        });
-    </script>
+      }
+      window.scrollTo({top:0, left:0, behavior:'smooth'});
+    }
+
+    // MOBILE menu toggle
+    document.getElementById('mobileMenuBtn').onclick = function() {
+      document.getElementById('mobileNav').classList.add('menu-open');
+    }
+    document.getElementById('closeMobileMenu').onclick = function() {
+      document.getElementById('mobileNav').classList.remove('menu-open');
+    }
+
+    // Nav click events
+    document.querySelectorAll('.nav-link').forEach(el=>{
+      el.onclick = function() {
+        setActiveSection(this.getAttribute('data-section'));
+        // close mobile nav if open
+        document.getElementById('mobileNav').classList.remove('menu-open');
+      }
+    });
+
+    // PROGRAMME: navigation
+    let currentDay = 0;
+    function renderProgramme(dayIdx) {
+      const d = programme[dayIdx];
+      let html = `
+        <div class="flex flex-col md:flex-row md:justify-between items-start mb-4">
+          <div>
+            <span class="text-emerald-700 text-lg font-bold"><i class="fas fa-calendar-day mr-1"></i> Jour ${d.day}</span><br>
+            <span class="text-emerald-500">${d.phrase}</span>
+          </div>
+        </div>
+        <ol class="grid md:grid-cols-2 gap-4">`;
+      for(const meal of d.meals) {
+        html += `
+        <li class="bg-emerald-50 border border-emerald-100 rounded-lg p-4 flex flex-col mb-2">
+          <span class="text-md font-semibold text-emerald-700"><i class="fas fa-utensils"></i> ${meal.meal} : ${meal.title}</span>
+          <div class="mt-1 mb-1 font-semibold text-gray-700">Ingrédients :</div>
+          <ul class="list-disc list-inside ml-2">
+            ${meal.ingredients.map(i=>"<li>"+i+"</li>").join("")}
+          </ul>
+          <div class="mt-1 mb-1 font-semibold text-gray-700">Préparation :</div>
+          <ol class="list-decimal ml-6 mb-2">${meal.steps.map(s=>"<li>"+s+"</li>").join('')}</ol>
+        </li>`;
+      }
+      html += `</ol>`;
+      document.getElementById('programmeContent').innerHTML = html;
+      // Sync select
+      document.getElementById('selectDay').value = dayIdx;
+    }
+    document.getElementById('selectDay').onchange = function() {
+      currentDay = Number(this.value);
+      renderProgramme(currentDay);
+    };
+    document.getElementById('prevDay').onclick = function() {
+      if(currentDay>0) {currentDay--;renderProgramme(currentDay);}
+    };
+    document.getElementById('nextDay').onclick = function() {
+      if(currentDay<20) {currentDay++;renderProgramme(currentDay);}
+    };
+    // INIT
+    renderProgramme(currentDay);
+
+    // COURSES (listes de courses)
+    function renderCourses(weekIdx) {
+      const w = courses[weekIdx];
+      let html = Object.entries(w.items).map(([k,v])=>
+        `<div><span class="text-emerald-700 font-semibold">${k} :</span>
+        <ul class="list-disc ml-5 my-1">${v.map(i=>"<li>"+i+"</li>").join("")}</ul></div>`
+      ).join('');
+      document.getElementById('coursesContent').innerHTML = `<h3 class="text-xl font-bold text-emerald-600 mb-2">${w.title}</h3>${html}`;
+    }
+    document.querySelectorAll('.courses-btn').forEach((btn,idx) => {
+      btn.onclick = () => renderCourses(idx);
+    });
+    // Init
+    renderCourses(0);
+
+    // Eau: Suivi consommation eau
+    function saveWater() {
+      let value = parseInt(document.getElementById('waterGlasses').value)||0;
+      if(value<0) value=0;if(value>12) value=12;
+      let today = new Date();
+      let key = 'waterHistory';
+      let week = []; try {week=JSON.parse(localStorage.getItem(key)||'[]');}catch(e){}
+      let found = false;
+      for(const rec of week){if(rec.day==today.getDay()){rec.value=value;found=true;}}
+      if(!found) week.push({day:today.getDay(),value:value});
+      localStorage.setItem(key,JSON.stringify(week));
+      renderWater();
+    }
+    function renderWater() {
+      let val = parseInt(document.getElementById('waterGlasses').value)||0;
+      document.getElementById('waterProgress').value = val <=8? val : 8;
+      document.getElementById('waterFeedback').textContent = val>=8 ?
+        "Bravo ! Objectif d'hydratation quotidien atteint !" : `Encore ${8-val>0?8-val:0} verre(s) à boire.`;
+      // history
+      let week=[]; try {week=JSON.parse(localStorage.getItem('waterHistory')||'[]');}catch(e){}
+      let body = '';
+      const days = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+      for(let i=1;i<=7;i++){
+        let rec = week.find(r=>r.day===i); // 1=Mon..6=Sat,0=Sun
+        body += `<tr>
+          <td class="border px-2 py-1">${days[i%7]}</td>
+          <td class="border px-2 py-1">${rec?rec.value:0}</td>
+        </tr>`;
+      }
+      document.getElementById('waterHistory').querySelector('tbody').innerHTML = body;
+    }
+    document.getElementById('waterGlasses').oninput = renderWater;
+    renderWater();
+
+    // Symptômes : journal
+    function renderSymptoms() {
+      let hist=[];try{hist=JSON.parse(localStorage.getItem('symptHistory')||'[]');}catch(e){}
+      hist.sort((a,b)=>b.timestamp-a.timestamp);
+      let body=hist.map(item=>`<tr>
+        <td class="border px-1 py-1">${item.date||""}</td>
+        <td class="border px-1 py-1">${item.level||""}/10</td>
+        <td class="border px-1 py-1">${item.symptoms?.join(', ')||""}</td>
+        <td class="border px-1 py-1">${item.notes||""}</td>
+      </tr>`).join('');
+      document.getElementById('symptHistory').querySelector('tbody').innerHTML = body || '<tr><td colspan=4 class="py-2 text-center text-gray-400">Aucun suivi encore.</td></tr>';
+    }
+    document.getElementById('symptomsForm').onsubmit = function(e){
+      e.preventDefault();
+      let hist=[];try{hist=JSON.parse(localStorage.getItem('symptHistory')||'[]');}catch(e){}
+      hist.push({
+        date:document.getElementById('symptDate').value,
+        level:document.getElementById('inflammationLevel').value,
+        symptoms:[...document.querySelectorAll('[name="symptoms"]:checked')].map(ch=>ch.value),
+        notes:document.getElementById('symptNotes').value,
+        timestamp:Date.now()
+      });
+      localStorage.setItem('symptHistory', JSON.stringify(hist));
+      renderSymptoms();
+      this.reset(); document.getElementById('levelLabel').textContent = '5/10';
+    };
+    document.getElementById('inflammationLevel').oninput = function() {
+      document.getElementById('levelLabel').textContent=this.value+'/10';
+    };
+    renderSymptoms();
+
+    // Responsive: close mobile menu if outside click
+    document.body.addEventListener('click',(e)=>{
+      if(document.getElementById('mobileNav').classList.contains('menu-open') &&
+         !e.target.closest('#mobileNav') && !e.target.closest('#mobileMenuBtn')) {
+        document.getElementById('mobileNav').classList.remove('menu-open');
+      }
+    });
+
+    // On page load: scroll top
+    window.onload = function() { window.scrollTo(0,0);}
+  </script>
 </body>
 </html>
+
